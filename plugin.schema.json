@@ -1,0 +1,42 @@
+{
+  "IMyAgentPlugin": {
+    "components": {
+      "schemas": {
+        "IMyAgentPluginFooArgs": {
+          "type": "object",
+          "properties": {
+            "did": {
+              "type": "string",
+              "description": "Decentralized identifier"
+            },
+            "bar": {
+              "type": "string",
+              "description": "Lorem ipsum"
+            },
+            "foo": {
+              "type": "string",
+              "description": "Dolorem"
+            }
+          },
+          "required": [
+            "did",
+            "bar",
+            "foo"
+          ],
+          "description": "Arguments needed for myPluginFoo"
+        }
+      },
+      "methods": {
+        "myPluginFoo": {
+          "description": "Method description",
+          "arguments": {
+            "$ref": "#/components/schemas/IMyAgentPluginFooArgs"
+          },
+          "returnType": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

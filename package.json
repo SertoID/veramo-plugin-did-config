@@ -1,0 +1,36 @@
+{
+  "name": "daf-plugin",
+  "version": "1.0.0",
+  "source": "src/index.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "daf": {
+    "pluginInterfaces": {
+      "IMyAgentPlugin": "./src/types/IMyAgentPlugin.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "generate-plugin-schema": "yarn daf generate-plugin-schema",
+    "start": "daf server",
+    "watch": "tsc -b --watch",
+    "clean": "rm -rf tmp && rm database.sqlite && rm -rf build && rm tsconfig.tsbuildinfo",
+    "upgrade-daf": "yarn add -D daf-cli@beta daf-core@beta daf-identity-manager@beta daf-key-manager@beta"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "daf-cli": "^7.0.0-beta.49",
+    "daf-core": "^7.0.0-beta.49",
+    "daf-identity-manager": "^7.0.0-beta.49",
+    "daf-key-manager": "^7.0.0-beta.49",
+    "typescript": "^4.0.5"
+  },
+  "files": [
+    "build/**/*",
+    "src/**/*",
+    "README.md",
+    "plugin-schema.json",
+    "LICENSE"
+  ],
+  "dependencies": {}
+}
