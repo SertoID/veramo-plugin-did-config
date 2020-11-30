@@ -20,10 +20,11 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "daf-cli": "^7.0.0-beta.50",
-    "daf-core": "^7.0.0-beta.50",
-    "daf-identity-manager": "^7.0.0-beta.50",
-    "daf-key-manager": "^7.0.0-beta.50",
+    "daf-cli": "^7.0.0-beta.51",
+    "daf-core": "^7.0.0-beta.51",
+    "daf-identity-manager": "^7.0.0-beta.51",
+    "daf-key-manager": "^7.0.0-beta.51",
+    "daf-w3c": "^7.0.0-beta.51",
     "typescript": "^4.0.5"
   },
   "files": [

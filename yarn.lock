@@ -805,10 +805,10 @@ cross-fetch@^3.0.4, cross-fetch@^3.0.5, cross-fetch@^3.0.6:
   dependencies:
     node-fetch "2.6.1"
 
-daf-cli@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-cli/-/daf-cli-7.0.0-beta.50.tgz#fd14bd4ab62b48a944718f3ba4e6ccaec376e74b"
-  integrity sha512-pK9mjSj1puWRb2xytxNda+UvwbO7CQnXFWKcpX2/30jLf8tT9FaLt35LWYYUW1rB1yanmsDknfvVdY0M/EJddg==
+daf-cli@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-cli/-/daf-cli-7.0.0-beta.51.tgz#42d91089bf2c613388ac89582d385266541734e5"
+  integrity sha512-gp0QP47E/sVLbwdExd7k8h06JycZKHFx1P338X9cSLp2ce4c4WLSZzahSvvmw2W1+U/jFyS0THuMK0vnVarhnA==
   dependencies:
     "@microsoft/api-extractor" "7.9.22"
     "@microsoft/api-extractor-model" "7.9.7"
@@ -818,23 +818,23 @@ daf-cli@^7.0.0-beta.50:
     commander "^6.1.0"
     console-table-printer "^2.0.0"
     cross-fetch "^3.0.6"
-    daf-core "^7.0.0-beta.50"
-    daf-did-comm "^7.0.0-beta.50"
-    daf-did-jwt "^7.0.0-beta.50"
-    daf-ethr-did "^7.0.0-beta.50"
-    daf-express "^7.0.0-beta.50"
-    daf-identity-manager "^7.0.0-beta.50"
-    daf-key-manager "^7.0.0-beta.50"
-    daf-libsodium "^7.0.0-beta.50"
-    daf-message-handler "^7.0.0-beta.50"
-    daf-resolver "^7.0.0-beta.50"
-    daf-resolver-universal "^7.0.0-beta.50"
-    daf-rest "^7.0.0-beta.50"
-    daf-selective-disclosure "^7.0.0-beta.50"
-    daf-typeorm "^7.0.0-beta.50"
-    daf-url "^7.0.0-beta.50"
-    daf-w3c "^7.0.0-beta.50"
-    daf-web-did "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
+    daf-did-comm "^7.0.0-beta.51"
+    daf-did-jwt "^7.0.0-beta.51"
+    daf-ethr-did "^7.0.0-beta.51"
+    daf-express "^7.0.0-beta.51"
+    daf-identity-manager "^7.0.0-beta.51"
+    daf-key-manager "^7.0.0-beta.51"
+    daf-libsodium "^7.0.0-beta.51"
+    daf-message-handler "^7.0.0-beta.51"
+    daf-resolver "^7.0.0-beta.51"
+    daf-resolver-universal "^7.0.0-beta.51"
+    daf-rest "^7.0.0-beta.51"
+    daf-selective-disclosure "^7.0.0-beta.51"
+    daf-typeorm "^7.0.0-beta.51"
+    daf-url "^7.0.0-beta.51"
+    daf-w3c "^7.0.0-beta.51"
+    daf-web-did "^7.0.0-beta.51"
     date-fns "^2.8.1"
     debug "^4.1.1"
     dotenv "^8.2.0"
@@ -861,182 +861,182 @@ daf-cli@^7.0.0-beta.50:
     ws "^7.2.0"
     yaml "^1.10.0"
 
-daf-core@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-core/-/daf-core-7.0.0-beta.50.tgz#fee3dba74a1d258f8cd36badb557e7cb01557c9b"
-  integrity sha512-DT+t+feDkrudguJgJSVntIJTcRNfxVhh2MdCl33nxA2TK4E8zHSZXPdouiLzAMD/C+h2H1jOSbxXPCx+5Utf2Q==
+daf-core@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-core/-/daf-core-7.0.0-beta.51.tgz#2ca789b02d1dbf3dffdfcb7e868e2845e280ef36"
+  integrity sha512-sMq+WdoZfaKXifUGAVBGOKryopeTsB6YyrZR/2Tl+dxMdUvw9kGqMUztu27pke8QepPjPUiuHe0MjKN43PlNJg==
   dependencies:
     debug "^4.1.1"
     did-jwt-vc "^1.0.3"
     events "^3.0.0"
     z-schema "^4.2.3"
 
-daf-did-comm@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-did-comm/-/daf-did-comm-7.0.0-beta.50.tgz#8838412172d4810c5b58b4bf667eabbc2636d1ca"
-  integrity sha512-CdcDGGg/o/EZHzwp90qQHaBjCTHlWbd/UWBMnEb91B82E2TGMbsNxH1sByHxg370aZXPd7G7YKtA+acOhyGIng==
+daf-did-comm@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-did-comm/-/daf-did-comm-7.0.0-beta.51.tgz#f28a5d01ce3875f5dbb980dbd14492c35f385b05"
+  integrity sha512-4D7/Vvx4w0QWj/Q1hGoJHiOPhnx7S4wDzNrzj0ajZd6tqxCW4Z72463u+BqdmmznQ1zfajSdFZ0ZL9naUavwrA==
   dependencies:
     cross-fetch "^3.0.5"
-    daf-core "^7.0.0-beta.50"
-    daf-message-handler "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
+    daf-message-handler "^7.0.0-beta.51"
     debug "^4.1.1"
     uuid "^8.3.0"
 
-daf-did-jwt@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-did-jwt/-/daf-did-jwt-7.0.0-beta.50.tgz#28c4dee88c06a451e34408554897c2b7ee32cf95"
-  integrity sha512-20u3738mjJkYEubrnBn6YA6W7Zcbjb20uh3/yW/bJSfp2YGWAyieNMCtG9RzVNNULa0B9rpAEa0oyfZFDaU+3g==
+daf-did-jwt@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-did-jwt/-/daf-did-jwt-7.0.0-beta.51.tgz#a9daef8c7d0d46d78382f714d2d010dccbfe99d5"
+  integrity sha512-PMDH51XEnoF15u1akOsOp3Qs3TOPzfUJmA2jYge4h+vaqMybjKl4EUC7AnIFaLjdmkgDIgFYMzruGfXLo8FRlA==
   dependencies:
-    daf-core "^7.0.0-beta.50"
-    daf-message-handler "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
+    daf-message-handler "^7.0.0-beta.51"
     debug "^4.1.1"
     did-jwt "4.5.0"
     did-resolver "2.1.1"
 
-daf-ethr-did@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-ethr-did/-/daf-ethr-did-7.0.0-beta.50.tgz#297be5c4fdbbf8dc3bd9c2ba9b29bd45608b64d6"
-  integrity sha512-QlZ5Y5sDbIJ/gKoQ9qeVGn15nyXI6GitAYJ5UZ+UkIy0cv5gPbMABKfOCmCCVfj+5KLIohkWxrJeaqPFEaeTeA==
+daf-ethr-did@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-ethr-did/-/daf-ethr-did-7.0.0-beta.51.tgz#7edd4c88fd5650da2a3a594c9bde24a0299c6dc9"
+  integrity sha512-AaMjtbGdtO/VLlRlaABGLUWBPLGefJbUS7OA+fg2nGxtbPhu3+332sgEtaV2iL9QHcD9wZAAn5SKneSfg7Ys2g==
   dependencies:
-    daf-core "^7.0.0-beta.50"
-    daf-identity-manager "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
+    daf-identity-manager "^7.0.0-beta.51"
     debug "^4.1.1"
     ethjs-provider-signer "^0.1.4"
     ethr-did "^1.1.0"
     js-sha3 "^0.8.0"
 
-daf-express@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-express/-/daf-express-7.0.0-beta.50.tgz#4deaa99d96687b72c18d8eb954bfa51b5adde43d"
-  integrity sha512-jDSkbFMBNrpdo8qM5OtZNWbequ7QNo59eOICrjDO9GLUm8sfU9hu499gYtxXHNdPDhAKt7otlKm1hEMe125r+w==
+daf-express@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-express/-/daf-express-7.0.0-beta.51.tgz#b6b813cbf3493d4a254b1eb6d4ca788b0162778f"
+  integrity sha512-7NXYDvEOFNGBdH9U9eu4lJG2flBKH4PYj3E3nxzlwn7OTH+5SI5XghRteyabBcpxm0HAhETsrH9tBudDbFTRKg==
   dependencies:
-    daf-core "^7.0.0-beta.50"
-    daf-rest "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
+    daf-rest "^7.0.0-beta.51"
     debug "^4.1.1"
 
-daf-identity-manager@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-identity-manager/-/daf-identity-manager-7.0.0-beta.50.tgz#b6ad2a8d8cd4a5d84614def1cff94859e4945458"
-  integrity sha512-05X1M7BKhwCJpKGZdbhhdrKgEKVjjn/I9VFqOFzc8iw653NcImntZRdihHzspIPYukHUCM+4KrXaYxednmMVDg==
+daf-identity-manager@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-identity-manager/-/daf-identity-manager-7.0.0-beta.51.tgz#470ac1ab66f3a32f373f35eedcf27b67e5b54dd6"
+  integrity sha512-P+9pYre8AeRIYAMySddVpYkokKoO/fpUJsQNxWiMtTk4SWJK4SYRV/DnaXKZuigXpXMGgSjpUcOjKr5tokYTXA==
   dependencies:
-    daf-core "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
 
-daf-key-manager@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-key-manager/-/daf-key-manager-7.0.0-beta.50.tgz#d2b2094e8c36d5c278423c442fa581c721fb88cf"
-  integrity sha512-z0PQmuKBwr52uI6W8OFmGChilFOcV90P7w1nB+McGnBVbNhGmRE1drnxxFsSOU/GtamNaxLVWf5PLjL5TxCZvg==
+daf-key-manager@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-key-manager/-/daf-key-manager-7.0.0-beta.51.tgz#8004e5e614bf36a5a22edde31a145d13632f24ef"
+  integrity sha512-L9PpTr7yaBHkWKHGTppfbfYsih/2UhH2sB4nsnsy4fHOi2Ffs9RduzANpkGLxO2lMPuowJ8ny05urjbU6pM8Mg==
   dependencies:
-    daf-core "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
 
-daf-libsodium@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-libsodium/-/daf-libsodium-7.0.0-beta.50.tgz#241a0430c1691381195ea3cbf194623f6da9a646"
-  integrity sha512-no0Q3GQOTRyq8nOYng8lvaHELmNvSoPzljL+koi5V7ZrOg3YmbMhq2ywr1oHyh94U33wDIdd+i0Ivn/SIaym+Q==
+daf-libsodium@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-libsodium/-/daf-libsodium-7.0.0-beta.51.tgz#0563c19c34bd9e2727b6da3e7ec6954cc84a42cf"
+  integrity sha512-sqhWGoa+oDB6A/a4gnkjAHAn/nxVssH1nDB/P4/KP8q1SKaz3I71d0GmbfzRZ3wBQjUBNMRMjUdiwZkwFraDfw==
   dependencies:
     base-58 "^0.0.1"
-    daf-core "^7.0.0-beta.50"
-    daf-key-manager "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
+    daf-key-manager "^7.0.0-beta.51"
     debug "^4.1.1"
     did-jwt "4.5.0"
     elliptic "^6.5.2"
     ethjs-signer "^0.1.1"
     libsodium-wrappers "^0.7.6"
 
-daf-message-handler@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-message-handler/-/daf-message-handler-7.0.0-beta.50.tgz#e860788ce56ab874180ec9913f5086039d9dedde"
-  integrity sha512-k3v45hhsG7XsZb8fjMlsW0kfkStPxYzBOiX0WPIFtEPLoJzOh04TSXoOHDHOh5B72qr9HuNYpD3nJ4sfIIQMiQ==
+daf-message-handler@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-message-handler/-/daf-message-handler-7.0.0-beta.51.tgz#f47f1d1419d2900bf04f3008ec81eb61d96bdf45"
+  integrity sha512-vRRAIhcx24k5HvDVkJ18CwvPPiAZW1MPgEzOE7uv0HgH5+6mSI2uqOsBRJOwAeYZ5TxRmfsnjXgSOF+1HDW6rg==
   dependencies:
-    daf-core "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
 
-daf-resolver-universal@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-resolver-universal/-/daf-resolver-universal-7.0.0-beta.50.tgz#0b803d33e3d671c5400d0506b84a12c0206a1cf5"
-  integrity sha512-d1hHgjdCUZC7ZLYiC8kR5bM1PM3M3DwrMjwKaDyWz0OyS0m75TUdkDnlREWK0b365IwoXph1lg3fuaWdHwl66Q==
+daf-resolver-universal@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-resolver-universal/-/daf-resolver-universal-7.0.0-beta.51.tgz#204bf002d60f61855b42b13e7e21f0239c145aed"
+  integrity sha512-0JmQEiXpezwdaUOQEWOjBLtDk9kn9kb8ZKZC36zSemTYBd9VFsB+x0RH7Nf0BNJCXQnofJYmGYvzHw8tbUM7eA==
   dependencies:
     cross-fetch "^3.0.5"
-    daf-core "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
     debug "^4.1.1"
     did-resolver "2.1.1"
 
-daf-resolver@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-resolver/-/daf-resolver-7.0.0-beta.50.tgz#5c8b65ca5b85403b53491c9288ac750aed34f99d"
-  integrity sha512-wc9bfd4S1JtBBq2w1AWKGe/egdKVOvYif6ZZ19Wg/ylo/Y5U686H8bRV4GUGq96ojJiFXGb2VYIZphUW7yxtKA==
+daf-resolver@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-resolver/-/daf-resolver-7.0.0-beta.51.tgz#4d4c90c13e615c998f460b81a9ca2ff70d04c45c"
+  integrity sha512-OYvjGUQDS/SjtZ11yibrsMcIgFukAzO/Jo6Uks+qHtrv5e25LXTfw9vWpsDvEnZfF66J/px7+LCm3XVUy2l2Ig==
   dependencies:
-    daf-core "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
     debug "^4.1.1"
     did-resolver "2.1.1"
     ethr-did-resolver "^3.0.0"
     nacl-did "^1.0.1"
     web-did-resolver "^1.3.3"
 
-daf-rest@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-rest/-/daf-rest-7.0.0-beta.50.tgz#73982d7c1219154d3b74703f36f9343b4901597a"
-  integrity sha512-rwtn/ZodrPG8LKeNWFrn4BFW5FMuPhWey01dAwf2lcxlPC0shReP9VY+w8l7hpzn5glD2pXnoNc6SMnf+MzxLg==
+daf-rest@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-rest/-/daf-rest-7.0.0-beta.51.tgz#b784c1a9f2d0c0dfe44dffdd3095804d640e9b6b"
+  integrity sha512-X7WHUl2+b1gwkMg3s1K9CQnkeadOIdWPZH0UhUvyM5+QYKrUOXJc06Igi4gqF/WkIYMms8OcpmmBe2dTqeOOYA==
   dependencies:
     cross-fetch "^3.0.5"
-    daf-core "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
     debug "^4.1.1"
     openapi-types "^7.0.0"
 
-daf-selective-disclosure@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-selective-disclosure/-/daf-selective-disclosure-7.0.0-beta.50.tgz#821b9f85d7f0a1285edd2ce2e7ef21e80e2fe1c1"
-  integrity sha512-xssxen4wlh+5/+sOrnWta5gqx0bEZaBUIDOFze1mAomqk8saj1JMDTdSFgGnwDOWboz/4ZCwvkmu/4f8sjkeeQ==
+daf-selective-disclosure@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-selective-disclosure/-/daf-selective-disclosure-7.0.0-beta.51.tgz#0fe5ec678baf8937c4a9686a492491a47de36932"
+  integrity sha512-+gjppxBWmclJy2C/Kj88056142gpvOFo5SisLpbtE1mO3uJPrD46u9z6j4DnlC/gvRqLEn2MyOrhJri6u5V4Ug==
   dependencies:
     blakejs "^1.1.0"
-    daf-core "^7.0.0-beta.50"
-    daf-did-jwt "^7.0.0-beta.50"
-    daf-message-handler "^7.0.0-beta.50"
-    daf-typeorm "^7.0.0-beta.50"
-    daf-w3c "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
+    daf-did-jwt "^7.0.0-beta.51"
+    daf-message-handler "^7.0.0-beta.51"
+    daf-typeorm "^7.0.0-beta.51"
+    daf-w3c "^7.0.0-beta.51"
     debug "^4.1.1"
     did-jwt "4.5.0"
 
-daf-typeorm@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-typeorm/-/daf-typeorm-7.0.0-beta.50.tgz#608cb75ff60d9279a99410ba77a0749663a95fe8"
-  integrity sha512-5er14+rLOeZ9WlfmLxyjs9zO0QgnrKJd8d+9O/uR8Bs6o6iA4JT4VnGteuvOzWkcpTehR2IKU1CBdrUCxopv4Q==
+daf-typeorm@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-typeorm/-/daf-typeorm-7.0.0-beta.51.tgz#5d86d44eedeed9bbd0cf888d3d962cd79dbfcf88"
+  integrity sha512-pucxF/GMwv7buuFvEv3yKbS7v1K40Ttp4XQQUcLcEDHyJETu75p7tEwSb6GGsH5pCDRVntf1NFRdAv59jJj+Iw==
   dependencies:
-    daf-core "^7.0.0-beta.50"
-    daf-identity-manager "^7.0.0-beta.50"
-    daf-key-manager "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
+    daf-identity-manager "^7.0.0-beta.51"
+    daf-key-manager "^7.0.0-beta.51"
     debug "^4.1.1"
     typeorm "0.2.24"
 
-daf-url@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-url/-/daf-url-7.0.0-beta.50.tgz#1bfe26602541a59f1d5909fc291980543e5841c2"
-  integrity sha512-Ti97JVYY7dH+1nUG0kZE0nVzjI57smrJBLMt27Iyec+yIZhtkRURrziV6ZGB8bKyItlBuYiXP9kkNLKFCAIi2w==
+daf-url@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-url/-/daf-url-7.0.0-beta.51.tgz#ccc870239f73c3264b970a07376c24fde6f10512"
+  integrity sha512-/4ib/yMMosgIq5OwwjQbmDzjtE9YVQShf7EpSavjWDVI+nRucVcUGlSOfejfx/wa0t5MnJdAMSClCC8mRFEAMw==
   dependencies:
-    daf-core "^7.0.0-beta.50"
-    daf-message-handler "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
+    daf-message-handler "^7.0.0-beta.51"
     debug "^4.1.1"
     url-parse "^1.4.7"
 
-daf-w3c@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-w3c/-/daf-w3c-7.0.0-beta.50.tgz#b1ffd531c4e2774e508701b21b20a6c8863e64fa"
-  integrity sha512-hTYowAWQK30pZhODX+OHLs7I6tCxQpwUALA0Z2sgL09xJHGQioMC1X5GfBTK0swhLeji52EJYX7oXfj+y08Sog==
+daf-w3c@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-w3c/-/daf-w3c-7.0.0-beta.51.tgz#ca2727b735ccec4b01d973bcbfeee194bf5161bb"
+  integrity sha512-zT+yqW3YHdVicA+00XLm67vMTk2j6m0LWsbKBvAqDjqLQLa067Yx6c357Bm8zBy4fk4HYxKxuxl0/WFYTQfpEg==
   dependencies:
     blakejs "^1.1.0"
-    daf-core "^7.0.0-beta.50"
-    daf-did-jwt "^7.0.0-beta.50"
-    daf-message-handler "^7.0.0-beta.50"
-    daf-resolver "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
+    daf-did-jwt "^7.0.0-beta.51"
+    daf-message-handler "^7.0.0-beta.51"
+    daf-resolver "^7.0.0-beta.51"
     debug "^4.1.1"
     did-jwt-vc "^1.0.3"
     did-resolver "2.1.1"
 
-daf-web-did@^7.0.0-beta.50:
-  version "7.0.0-beta.50"
-  resolved "https://registry.yarnpkg.com/daf-web-did/-/daf-web-did-7.0.0-beta.50.tgz#7031084d729c39b7e124eb0a0d630e606897a6ed"
-  integrity sha512-1dlzq8w6pMBlFzMRgqwjUd1ZiVg5y9RhZwCD5xP95YLtL5s2we0zWhBJOqMK5poUMHiFTZyc0WEgQdZkcWZp9Q==
+daf-web-did@^7.0.0-beta.51:
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/daf-web-did/-/daf-web-did-7.0.0-beta.51.tgz#e51048e0a8f64480e35253a9250383acd33689ce"
+  integrity sha512-qbdP1nqm/7hgnOAObhyw7ymAKkJm5yk1MU3JnJlzxpTdipdLdw+i72YtBAhRjvygJCq6SExdhcP67ab1VByAnQ==
   dependencies:
-    daf-core "^7.0.0-beta.50"
-    daf-identity-manager "^7.0.0-beta.50"
+    daf-core "^7.0.0-beta.51"
+    daf-identity-manager "^7.0.0-beta.51"
     debug "^4.1.1"
 
 dashdash@^1.12.0:

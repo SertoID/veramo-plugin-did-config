@@ -1,28 +1,24 @@
 import { IPluginMethodMap, IAgentContext, IIdentityManager, IResolver } from 'daf-core'
+import { ICredentialIssuer } from 'daf-w3c'
 
 /**
  * Plugin context
  * @beta
  */
-export type IContext = IAgentContext<IResolver & IIdentityManager>
+export type IContext = IAgentContext<IResolver & IIdentityManager & ICredentialIssuer>
 
 /**
- * Arguments needed for myPluginFoo
+ * The arguments for the .well-known DID configuration plugin.
  * @beta
  */
-export interface IWellKnownDIDConfigurationPluginArgs {
+export interface IWellKnownDidConfigurationPluginArgs {
   /**
-   * Decentralized identifier
-   */
-  did: string, // TODO Is it required for some reason?
-
-  /**
-   * List of DIDs to be included in the DID configuration file
+   * List of DIDs to be included in the DID configuration file. Each DID needs to be managed by this agent.
    */
   dids: string[],
 
   /**
-   * The domain name that controlls the DIDs
+   * The domain name linked to the DIDs.
    */
   domain: string,
 }
@@ -40,7 +36,7 @@ export interface IWellKnownDidConfigurationPlugin extends IPluginMethodMap {
    * @returns The DID configuration file to be used in the .well-known DID configuration
    */
   generateDidConfiguration(
-    args: IWellKnownDIDConfigurationPluginArgs,
+    args: IWellKnownDidConfigurationPluginArgs,
     context: IContext,
   ): Promise<string> // TODO How to return a file? Or... KISS! Return the file content as a string.
 }

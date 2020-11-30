@@ -1,36 +1,39 @@
 {
-  "IMyAgentPlugin": {
+  "IWellKnownDidConfigurationPlugin": {
     "components": {
       "schemas": {
-        "IMyAgentPluginFooArgs": {
+        "IWellKnownDidConfigurationPluginArgs": {
           "type": "object",
           "properties": {
             "did": {
               "type": "string",
               "description": "Decentralized identifier"
             },
-            "bar": {
-              "type": "string",
-              "description": "Lorem ipsum"
+            "dids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of DIDs to be included in the DID configuration file"
             },
-            "foo": {
+            "domain": {
               "type": "string",
-              "description": "Dolorem"
+              "description": "The domain name that controlls the DIDs"
             }
           },
           "required": [
             "did",
-            "bar",
-            "foo"
+            "dids",
+            "domain"
           ],
           "description": "Arguments needed for myPluginFoo"
         }
       },
       "methods": {
-        "myPluginFoo": {
-          "description": "Method description",
+        "generateDidConfiguration": {
+          "description": "Generates a DID configuration for a domain including a list of DID \"owned\" by the DID agent.",
           "arguments": {
-            "$ref": "#/components/schemas/IMyAgentPluginFooArgs"
+            "$ref": "#/components/schemas/IWellKnownDidConfigurationPluginArgs"
           },
           "returnType": {
             "type": "string"
