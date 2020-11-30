@@ -153,4 +153,4 @@ agent:
         - $require: daf-did-comm#DIDComm
         - $require: daf-w3c#CredentialIssuer
         - $require: daf-selective-disclosure#SelectiveDisclosure
-        - $require: ./build/agent/my-plugin#MyAgentPlugin
+        - $require: ./build/agent/did-configuration-plugin#DIDConfigurationPlugin
