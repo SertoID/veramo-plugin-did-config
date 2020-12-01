@@ -23,8 +23,12 @@ export interface IWellKnownDidConfigurationPluginArgs {
   domain: string,
 }
 
+export const WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI = "https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld";
+export const WELL_KNOWN_DID_CONFIGURATION_PATH = "/.well-known/did-configuration.json";
+
 /**
  * The `DID configuration` schema.
+ * @see https://identity.foundation/.well-known/resources/did-configuration/
  * @beta
  */
 export interface IDidConfigurationSchema {

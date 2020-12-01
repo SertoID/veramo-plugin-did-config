@@ -1,5 +1,5 @@
 import { IAgentPlugin, IIdentity, VerifiableCredential, W3CCredential } from 'daf-core'
-import { IWellKnownDidConfigurationPlugin, IWellKnownDidConfigurationPluginArgs, IContext, IDidConfigurationSchema } from '../types/IWellKnownDidConfigurationPlugin'
+import { IWellKnownDidConfigurationPlugin, IWellKnownDidConfigurationPluginArgs, IContext, IDidConfigurationSchema, WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI } from '../types/IWellKnownDidConfigurationPlugin'
 import { schema } from '../index'
 
 /** 
@@ -23,7 +23,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
   /** {@inheritDoc IWellKnownDidConfigurationPlugin.generateDidConfiguration} */
   private async generateDidConfiguration(args: IWellKnownDidConfigurationPluginArgs, context: IContext): Promise<IDidConfigurationSchema> {
     const didConfiguration = {
-      '@context': "https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld",
+      '@context': WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI,
       linked_dids: new Array<VerifiableCredential>()
     };
 
@@ -31,7 +31,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       const identity: IIdentity = await context.agent.identityManagerGetIdentity({ did: did });
 
       const payload = {
-        '@context': ["https://www.w3.org/2018/credentials/v1", "https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld"],
+        '@context': ["https://www.w3.org/2018/credentials/v1", WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI],
         type: ["VerifiableCredential", "DomainLinkageCredential"],
         issuer: { id: identity.did },
         issuanceDate: new Date().toISOString(),
