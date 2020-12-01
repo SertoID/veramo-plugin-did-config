@@ -5,28 +5,121 @@
         "IWellKnownDidConfigurationPluginArgs": {
           "type": "object",
           "properties": {
-            "did": {
-              "type": "string",
-              "description": "Decentralized identifier"
-            },
             "dids": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "List of DIDs to be included in the DID configuration file"
+              "description": "List of DIDs to be included in the DID configuration file. Each DID needs to be managed by this agent."
             },
             "domain": {
               "type": "string",
-              "description": "The domain name that controlls the DIDs"
+              "description": "The domain name linked to the DIDs."
             }
           },
           "required": [
-            "did",
             "dids",
             "domain"
           ],
-          "description": "Arguments needed for myPluginFoo"
+          "description": "The arguments for the .well-known DID configuration plugin."
+        },
+        "IDidConfigurationSchema": {
+          "type": "object",
+          "properties": {
+            "@context": {
+              "type": "string",
+              "description": "https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld"
+            },
+            "linked_dids": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerifiableCredential"
+              },
+              "description": "The list of VCs linking"
+            }
+          },
+          "required": [
+            "@context",
+            "linked_dids"
+          ],
+          "description": "The `DID configuration` schema."
+        },
+        "VerifiableCredential": {
+          "type": "object",
+          "properties": {
+            "@context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "issuer": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            },
+            "issuanceDate": {
+              "type": "string"
+            },
+            "expirationDate": {
+              "type": "string"
+            },
+            "credentialSubject": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            },
+            "credentialStatus": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "type"
+              ]
+            },
+            "proof": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": [
+            "@context",
+            "type",
+            "issuer",
+            "issuanceDate",
+            "credentialSubject",
+            "proof"
+          ],
+          "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}"
         }
       },
       "methods": {
@@ -36,7 +129,7 @@
             "$ref": "#/components/schemas/IWellKnownDidConfigurationPluginArgs"
           },
           "returnType": {
-            "type": "string"
+            "$ref": "#/components/schemas/IDidConfigurationSchema"
           }
         }
       }

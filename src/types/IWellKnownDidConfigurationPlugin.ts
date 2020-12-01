@@ -1,4 +1,4 @@
-import { IPluginMethodMap, IAgentContext, IIdentityManager, IResolver } from 'daf-core'
+import { IPluginMethodMap, IAgentContext, IIdentityManager, IResolver, VerifiableCredential } from 'daf-core'
 import { ICredentialIssuer } from 'daf-w3c'
 
 /**
@@ -24,6 +24,22 @@ export interface IWellKnownDidConfigurationPluginArgs {
 }
 
 /**
+ * The `DID configuration` schema.
+ * @beta
+ */
+export interface IDidConfigurationSchema {
+  /**
+   * https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld
+   */
+  '@context': string,
+
+  /**
+   * The list of VCs linking 
+   */
+  linked_dids: VerifiableCredential[],
+}
+
+/**
  * .well-known DID configuration Plugin
  * @beta
  */
@@ -33,10 +49,10 @@ export interface IWellKnownDidConfigurationPlugin extends IPluginMethodMap {
    * 
    * @param args - List of DIDs to be included in the .well-known DID configuration file
    * @param context - Context
-   * @returns The DID configuration file to be used in the .well-known DID configuration
+   * @returns The DID configuration
    */
   generateDidConfiguration(
     args: IWellKnownDidConfigurationPluginArgs,
     context: IContext,
-  ): Promise<string> // TODO How to return a file? Or... KISS! Return the file content as a string.
+  ): Promise<IDidConfigurationSchema>
 }

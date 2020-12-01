@@ -1,5 +1,5 @@
 import { IAgentPlugin, IIdentity, VerifiableCredential, W3CCredential } from 'daf-core'
-import { IWellKnownDidConfigurationPlugin, IWellKnownDidConfigurationPluginArgs, IContext } from '../types/IWellKnownDidConfigurationPlugin'
+import { IWellKnownDidConfigurationPlugin, IWellKnownDidConfigurationPluginArgs, IContext, IDidConfigurationSchema } from '../types/IWellKnownDidConfigurationPlugin'
 import { schema } from '../index'
 
 /** 
@@ -21,27 +21,25 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
   }
 
   /** {@inheritDoc IWellKnownDidConfigurationPlugin.generateDidConfiguration} */
-  private async generateDidConfiguration(args: IWellKnownDidConfigurationPluginArgs, context: IContext): Promise<string> {
+  private async generateDidConfiguration(args: IWellKnownDidConfigurationPluginArgs, context: IContext): Promise<IDidConfigurationSchema> {
     const didConfiguration = {
       '@context': "https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld",
       linked_dids: new Array<VerifiableCredential>()
     };
 
-    args.dids.forEach(async did => {
+    for (const did of args.dids) {
       const identity: IIdentity = await context.agent.identityManagerGetIdentity({ did: did });
-      
+
       const payload = {
-        '@context': ["https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld"],
+        '@context': ["https://www.w3.org/2018/credentials/v1", "https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld"],
         type: ["VerifiableCredential", "DomainLinkageCredential"],
-        issuer: {
-          id: identity.did
-        },
+        issuer: { id: identity.did },
         issuanceDate: new Date().toISOString(),
         credentialSubject: {
           id: identity.did,
           origin: args.domain
         }
-      }
+      };
 
       const vc: VerifiableCredential = await context.agent.createVerifiableCredential({
         credential: payload,
@@ -49,8 +47,8 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       });
 
       didConfiguration.linked_dids.push(vc);
-    });
+    }
 
-    return JSON.stringify(didConfiguration);
+    return didConfiguration;
   }
 }
