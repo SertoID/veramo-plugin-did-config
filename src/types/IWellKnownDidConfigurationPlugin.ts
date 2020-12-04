@@ -1,11 +1,11 @@
-import { IPluginMethodMap, IAgentContext, IIdentityManager, IResolver, VerifiableCredential } from 'daf-core'
+import { IPluginMethodMap, IAgentContext, IIdentityManager, IResolver, VerifiableCredential, IMessageHandler } from 'daf-core'
 import { ICredentialIssuer } from 'daf-w3c'
 
 /**
  * Plugin context
  * @beta
  */
-export type IContext = IAgentContext<IResolver & IIdentityManager & ICredentialIssuer>
+export type IContext = IAgentContext<IResolver & IIdentityManager & ICredentialIssuer & IMessageHandler>
 
 /**
  * The arguments for the .well-known DID configuration plugin.
@@ -23,12 +23,8 @@ export interface IWellKnownDidConfigurationPluginArgs {
   domain: string,
 }
 
-export const WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI = "https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld";
-export const WELL_KNOWN_DID_CONFIGURATION_PATH = "/.well-known/did-configuration.json";
-
 /**
- * The `DID configuration` schema.
- * @see https://identity.foundation/.well-known/resources/did-configuration/
+ * The `DID configuration` schema. See https://identity.foundation/.well-known/resources/did-configuration/
  * @beta
  */
 export interface IDidConfigurationSchema {
@@ -44,6 +40,17 @@ export interface IDidConfigurationSchema {
 }
 
 /**
+ * The arguments to verify the .well-known DID configuration from a web domain.
+ * @beta
+ */
+export interface IWellKnownDidConfigurationVerificationArgs {
+  /**
+   * The web domain name which will be used to retrieve the .well-know DID configuration. 
+   */
+  domain: string,
+}
+
+/**
  * .well-known DID configuration Plugin
  * @beta
  */
@@ -53,10 +60,21 @@ export interface IWellKnownDidConfigurationPlugin extends IPluginMethodMap {
    * 
    * @param args - List of DIDs to be included in the .well-known DID configuration file
    * @param context - Context
-   * @returns The DID configuration
+   * @returns - The DID configuration.
    */
   generateDidConfiguration(
     args: IWellKnownDidConfigurationPluginArgs,
+    context: IContext,
+  ): Promise<IDidConfigurationSchema>
+
+  /**
+   * 
+   * @param args - The domain name
+   * @param context - Context
+   * @returns The verified DID configuration (linked domains checked and VCs signatures verified).
+   */
+  verifyWellKnownDidConfiguration(
+    args: IWellKnownDidConfigurationVerificationArgs,
     context: IContext,
   ): Promise<IDidConfigurationSchema>
 }

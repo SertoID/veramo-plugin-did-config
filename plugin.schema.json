@@ -42,7 +42,7 @@
             "@context",
             "linked_dids"
           ],
-          "description": "The `DID configuration` schema."
+          "description": "The `DID configuration` schema. See https://identity.foundation/.well-known/resources/did-configuration/"
         },
         "VerifiableCredential": {
           "type": "object",
@@ -120,6 +120,19 @@
             "proof"
           ],
           "description": "Verifiable Credential {@link https://github.com/decentralized-identity/did-jwt-vc}"
+        },
+        "IWellKnownDidConfigurationVerificationArgs": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "type": "string",
+              "description": "The web domain name which will be used to retrieve the .well-know DID configuration."
+            }
+          },
+          "required": [
+            "domain"
+          ],
+          "description": "The arguments to verify the .well-known DID configuration from a web domain."
         }
       },
       "methods": {
@@ -127,6 +140,15 @@
           "description": "Generates a DID configuration for a domain including a list of DID \"owned\" by the DID agent.",
           "arguments": {
             "$ref": "#/components/schemas/IWellKnownDidConfigurationPluginArgs"
+          },
+          "returnType": {
+            "$ref": "#/components/schemas/IDidConfigurationSchema"
+          }
+        },
+        "verifyWellKnownDidConfiguration": {
+          "description": "",
+          "arguments": {
+            "$ref": "#/components/schemas/IWellKnownDidConfigurationVerificationArgs"
           },
           "returnType": {
             "$ref": "#/components/schemas/IDidConfigurationSchema"

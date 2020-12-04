@@ -1,6 +1,22 @@
-import { IAgentPlugin, IIdentity, VerifiableCredential, W3CCredential } from 'daf-core'
-import { IWellKnownDidConfigurationPlugin, IWellKnownDidConfigurationPluginArgs, IContext, IDidConfigurationSchema, WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI } from '../types/IWellKnownDidConfigurationPlugin'
-import { schema } from '../index'
+import { IAgentPlugin, IIdentity, IMessage, VerifiableCredential } from 'daf-core';
+import request from 'request';
+import { schema } from '../index';
+import {
+  IContext,
+  IDidConfigurationSchema,
+  IWellKnownDidConfigurationPlugin,
+  IWellKnownDidConfigurationPluginArgs,
+  IWellKnownDidConfigurationVerificationArgs,
+} from '../types/IWellKnownDidConfigurationPlugin';
+import { JwtMessageHandler } from 'daf-did-jwt';
+import { W3cMessageHandler } from 'daf-w3c';
+import { MessageHandler } from 'daf-message-handler';
+import { DafResolver } from 'daf-resolver';
+import { createAgent, IResolver, IMessageHandler } from 'daf-core';
+
+
+const WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI = "https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld";
+const WELL_KNOWN_DID_CONFIGURATION_PATH = "/.well-known/did-configuration.json";
 
 /** 
  * {@inheritDoc IWellKnownDidConfigurationPlugin}
@@ -13,7 +29,8 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
   readonly eventTypes = ['validatedMessage']
 
   readonly methods: IWellKnownDidConfigurationPlugin = {
-    generateDidConfiguration: this.generateDidConfiguration.bind(this)
+    generateDidConfiguration: this.generateDidConfiguration.bind(this),
+    verifyWellKnownDidConfiguration: this.verifyWellKnownDidConfiguration.bind(this)
   }
 
   public async onEvent(event: { type: string; data: any }, context: IContext) {
@@ -51,4 +68,59 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
 
     return didConfiguration;
   }
+
+  /** {@inheritDoc IWellKnownDidConfigurationPlugin.verifyWellKnownDidConfiguration} */
+  private async verifyWellKnownDidConfiguration(args: IWellKnownDidConfigurationVerificationArgs, context: IContext): Promise<IDidConfigurationSchema> {
+    const domain = args.domain.replace("https://", "").replace("http://", "");
+
+    // Check domain correctnes
+    // if (!validator.isURL(args.domain, { require_valid_protocol: false })) throw "Invalid web domain";
+
+    const didConfigUrl = "https://" + domain + WELL_KNOWN_DID_CONFIGURATION_PATH;
+    let didConfiguration: IDidConfigurationSchema;
+    try {
+      let content: string = await download(didConfigUrl); // TODO Replace with "fetch"?
+      didConfiguration = JSON.parse(content);
+    } catch (error) {
+      throw "Failed to download the .well-known DID configuration at '" + didConfigUrl + "'. Error: " + error + "";
+    }
+
+    if (!didConfiguration.linked_dids) throw "The DID configuration must contain a `linked_dids` property.";
+
+    for (let vc of didConfiguration.linked_dids) {
+      // Check the VC signature
+      let msg: IMessage;
+      try {
+        msg = await context.agent.handleMessage({ raw: JSON.stringify(vc), save: false, metaData: [{ type: 'ephemeral validation' }] })
+      } catch (e) {
+        throw "Invalid VC for DID " + vc.credentialSubject.id;
+      }
+
+      if (!msg.credentials) throw "No linked domain found.";
+
+      let verified: VerifiableCredential = msg.credentials[0];
+
+      // Check if the linked domain matches with the domain hosting the DID configuration
+      if (verified.credentialSubject.origin !== domain) throw "The DID '" + verified.credentialSubject.id + "' is linked to an unexpected domain: " + vc.credentialSubject.origin;
+    }
+
+    return didConfiguration;
+  }
 }
+
+
+const download = (url: string) => {
+  return new Promise<string>((resolve, reject) => {
+    request(url, (error, response, body) => {
+      if (error) reject(error);
+      if (response.statusCode != 200) {
+        reject('Invalid status code <' + response.statusCode + '>');
+      }
+      resolve(body);
+    });
+  });
+};
+
+const verifyVerifiableCredential = (vc: VerifiableCredential) => {
+
+};
