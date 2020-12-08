@@ -6,13 +6,8 @@ import {
   IDidConfigurationSchema,
   IWellKnownDidConfigurationPlugin,
   IWellKnownDidConfigurationPluginArgs,
-  IWellKnownDidConfigurationVerificationArgs,
+  IWellKnownDidConfigurationVerificationArgs
 } from '../types/IWellKnownDidConfigurationPlugin';
-import { JwtMessageHandler } from 'daf-did-jwt';
-import { W3cMessageHandler } from 'daf-w3c';
-import { MessageHandler } from 'daf-message-handler';
-import { DafResolver } from 'daf-resolver';
-import { createAgent, IResolver, IMessageHandler } from 'daf-core';
 
 
 const WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI = "https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld";
@@ -39,9 +34,9 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
 
   /** {@inheritDoc IWellKnownDidConfigurationPlugin.generateDidConfiguration} */
   private async generateDidConfiguration(args: IWellKnownDidConfigurationPluginArgs, context: IContext): Promise<IDidConfigurationSchema> {
-    const didConfiguration = {
+    const didConfiguration : IDidConfigurationSchema = {
       '@context': WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI,
-      linked_dids: new Array<VerifiableCredential>()
+      linked_dids: []
     };
 
     for (const did of args.dids) {
@@ -63,7 +58,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
         proofFormat: 'jwt'
       });
 
-      didConfiguration.linked_dids.push(vc);
+      didConfiguration.linked_dids.push(JSON.stringify(vc));
     }
 
     return didConfiguration;
@@ -79,8 +74,9 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
     const didConfigUrl = "https://" + domain + WELL_KNOWN_DID_CONFIGURATION_PATH;
     let didConfiguration: IDidConfigurationSchema;
     try {
-      let content: string = await download(didConfigUrl); // TODO Replace with "fetch"?
-      didConfiguration = JSON.parse(content);
+      let content : Response = await fetch(didConfigUrl);
+      // let content: string = await download(didConfigUrl); // TODO Replace with "fetch"?
+      didConfiguration = await content.json();
     } catch (error) {
       throw "Failed to download the .well-known DID configuration at '" + didConfigUrl + "'. Error: " + error + "";
     }
@@ -91,9 +87,11 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       // Check the VC signature
       let msg: IMessage;
       try {
-        msg = await context.agent.handleMessage({ raw: JSON.stringify(vc), save: false, metaData: [{ type: 'ephemeral validation' }] })
+        msg = await context.agent.handleMessage({ raw: vc, save: false, metaData: [{ type: 'ephemeral validation' }] });
+        if (!msg) continue;
       } catch (e) {
-        throw "Invalid VC for DID " + vc.credentialSubject.id;
+        didConfiguration.linked_dids = didConfiguration.linked_dids.filter((value, index, err) => value != vc);
+        continue;
       }
 
       if (!msg.credentials) throw "No linked domain found.";
@@ -101,7 +99,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       let verified: VerifiableCredential = msg.credentials[0];
 
       // Check if the linked domain matches with the domain hosting the DID configuration
-      if (verified.credentialSubject.origin !== domain) throw "The DID '" + verified.credentialSubject.id + "' is linked to an unexpected domain: " + vc.credentialSubject.origin;
+      if (verified.credentialSubject.origin !== domain) throw "The DID '" + verified.credentialSubject.id + "' is linked to an unexpected domain: " + verified.credentialSubject.origin;
     }
 
     return didConfiguration;

@@ -36,7 +36,7 @@ export interface IDidConfigurationSchema {
   /**
    * The list of VCs linking 
    */
-  linked_dids: VerifiableCredential[],
+  linked_dids: string[],
 }
 
 /**
