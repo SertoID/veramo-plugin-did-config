@@ -1,13 +1,11 @@
 import { IAgentPlugin, IIdentity, IMessage, VerifiableCredential } from 'daf-core';
-import request from 'request';
 import { schema } from '../index';
 import {
   IContext,
   IDidConfigurationSchema,
   IWellKnownDidConfigurationPlugin,
   IWellKnownDidConfigurationPluginArgs,
-  IWellKnownDidConfigurationVerificationArgs,
-  VerifiableCredentialOrJwt
+  IWellKnownDidConfigurationVerificationArgs
 } from '../types/IWellKnownDidConfigurationPlugin';
 
 

@@ -17,15 +17,11 @@
     "verify": "daf execute -m verifyWellKnownDidConfiguration -a \"{\\\"domain\\\": \\\"identity.foundation\\\"}\"",
     "watch": "tsc -b --watch",
     "clean": "rm -rf tmp && rm database.sqlite && rm -rf build && rm tsconfig.tsbuildinfo",
-    "upgrade-daf": "yarn add -D daf-cli@beta daf-core@beta daf-identity-manager@beta daf-key-manager@beta daf-w3c@beta"
+    "upgrade-daf": "yarn add -D daf-cli@beta && yarn add daf-w3c@beta daf-core@beta"
   },
   "license": "MIT",
   "devDependencies": {
     "daf-cli": "^7.0.0-beta.56",
-    "daf-core": "^7.0.0-beta.56",
-    "daf-identity-manager": "^7.0.0-beta.56",
-    "daf-key-manager": "^7.0.0-beta.56",
-    "daf-w3c": "^7.0.0-beta.56",
     "typescript": "^4.0.5"
   },
   "files": [
@@ -35,5 +31,8 @@
     "plugin-schema.json",
     "LICENSE"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "daf-core": "^7.0.0-beta.56",
+    "daf-w3c": "^7.0.0-beta.56"
+  }
 }
