@@ -96,7 +96,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
         if (!msg) continue;
       } catch (e) {
         // Some of the VCs couldn't be verified! We should remove it from the list later.
-        throw { message: "Invalid VC in the DID configuration: " + credential };
+        throw { message: "Invalid VC (" + e + ") in the DID configuration: " + credential };
       }
 
       if (!msg.credentials) throw { message: "No linked domain found on VC: " + credential };
