@@ -69,7 +69,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
   private async verifyWellKnownDidConfiguration(args: IWellKnownDidConfigurationVerificationArgs, context: IContext): Promise<IDidConfigurationSchema> {
     const domain = args.domain.replace("https://", "").replace("http://", "");
 
-    // TODO Check domain correctnes
+    // TODO Check domain correctness
     // if (!validator.isURL(args.domain, { require_valid_protocol: false })) throw  { message: "Invalid web domain" };
 
     const didConfigUrl = "https://" + domain + WELL_KNOWN_DID_CONFIGURATION_PATH;
@@ -85,7 +85,13 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
 
     for (let vc of didConfiguration.linked_dids) {
       // Verify the VC
-      let credential: string = typeof vc === "string" ? vc : JSON.stringify(vc);
+      let credential: string;
+      if (typeof vc === "string") {
+        credential = vc;
+      } else {
+        //ignore non-jwt credential types since daf can't handle them now
+        continue;
+      }
       let msg: IMessage;
       try {
         msg = await context.agent.handleMessage({ raw: credential, save: false, metaData: [{ type: 'ephemeral validation' }] });
@@ -101,7 +107,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
 
       // Check if the linked domain matches with the domain hosting the DID configuration
       if (verified.credentialSubject.origin !== domain) {
-        throw { message: "The DID '" + verified.credentialSubject.id + "' is linked to an unexpected domain '" + verified.credentialSubject.origin + "', instead of '" + domain + "'"};
+        throw { message: `The DID ${verified.credentialSubject.id} is linked to an unexpected domain ${verified.credentialSubject.origin}, instead of ${domain}`};
       }
     }
 

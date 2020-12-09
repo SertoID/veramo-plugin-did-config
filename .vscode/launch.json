@@ -29,7 +29,7 @@
         "-m",
         "verifyWellKnownDidConfiguration",
         "-a",
-        "{\"domain\": \"mesh.xyz\"}"
+        "{\"domain\": \"identity.foundation\"}"
       ],
       "sourceMaps": true,
       // "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/@microsoft/api-extractor/**", "!**/node_modules/ts-json-schema-generator/**"],
