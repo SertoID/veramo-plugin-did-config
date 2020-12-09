@@ -42,7 +42,7 @@
             "@context",
             "linked_dids"
           ],
-          "description": "The `DID configuration` schema. See https://identity.foundation/.well-known/resources/did-configuration/"
+          "description": "The `DID configuration`"
         },
         "VerifiableCredentialOrJwt": {
           "anyOf": [

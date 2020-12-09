@@ -60,8 +60,6 @@ agent:
               kms:
                 local:
                   $require: daf-libsodium#KeyManagementSystem
-                my:
-                  $require: ./build/key-manager/key-management-system#KeyManagementSystem
         - $require: daf-identity-manager#IdentityManager
           $args:
             - store:
@@ -70,10 +68,6 @@ agent:
                   - $ref: /dbConnection
               defaultProvider: did:ethr:rinkeby
               providers:
-                did:my:
-                  $require: ./build/identity-manager/identity-provider#IdentityProvider
-                  $args:
-                    - defaultKms: local
                 did:ethr:
                   $require: daf-ethr-did#EthrIdentityProvider
                   $args:
