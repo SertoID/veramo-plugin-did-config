@@ -6,7 +6,8 @@ import {
   IDidConfigurationSchema,
   IWellKnownDidConfigurationPlugin,
   IWellKnownDidConfigurationPluginArgs,
-  IWellKnownDidConfigurationVerificationArgs
+  IWellKnownDidConfigurationVerificationArgs,
+  VerifiableCredentialOrJwt
 } from '../types/IWellKnownDidConfigurationPlugin';
 
 
@@ -34,7 +35,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
 
   /** {@inheritDoc IWellKnownDidConfigurationPlugin.generateDidConfiguration} */
   private async generateDidConfiguration(args: IWellKnownDidConfigurationPluginArgs, context: IContext): Promise<IDidConfigurationSchema> {
-    const didConfiguration : IDidConfigurationSchema = {
+    const didConfiguration: IDidConfigurationSchema = {
       '@context': WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI,
       linked_dids: []
     };
@@ -58,7 +59,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
         proofFormat: 'jwt'
       });
 
-      didConfiguration.linked_dids.push(JSON.stringify(vc));
+      didConfiguration.linked_dids.push(vc);
     }
 
     return didConfiguration;
@@ -74,7 +75,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
     const didConfigUrl = "https://" + domain + WELL_KNOWN_DID_CONFIGURATION_PATH;
     let didConfiguration: IDidConfigurationSchema;
     try {
-      let content : Response = await fetch(didConfigUrl);
+      let content: Response = await fetch(didConfigUrl);
       // let content: string = await download(didConfigUrl); // TODO Replace with "fetch"?
       didConfiguration = await content.json();
     } catch (error) {
@@ -85,16 +86,17 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
 
     for (let vc of didConfiguration.linked_dids) {
       // Check the VC signature
+      let credential: string = typeof vc === "string" ? vc : JSON.stringify(vc);
       let msg: IMessage;
       try {
-        msg = await context.agent.handleMessage({ raw: vc, save: false, metaData: [{ type: 'ephemeral validation' }] });
+        msg = await context.agent.handleMessage({ raw: credential, save: false, metaData: [{ type: 'ephemeral validation' }] });
         if (!msg) continue;
       } catch (e) {
-        didConfiguration.linked_dids = didConfiguration.linked_dids.filter((value, index, err) => value != vc);
-        continue;
+        // Some of the VCs couldn't be verified! We should remove it from the list later.
+        throw "Invalid VC in the DID configuration: " + credential;
       }
 
-      if (!msg.credentials) throw "No linked domain found.";
+      if (!msg.credentials) throw "No linked domain found on VC: " + credential;
 
       let verified: VerifiableCredential = msg.credentials[0];
 

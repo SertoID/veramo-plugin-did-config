@@ -33,7 +33,7 @@
             "linked_dids": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/VerifiableCredential"
+                "$ref": "#/components/schemas/VerifiableCredentialOrJwt"
               },
               "description": "The list of VCs linking"
             }
@@ -43,6 +43,16 @@
             "linked_dids"
           ],
           "description": "The `DID configuration` schema. See https://identity.foundation/.well-known/resources/did-configuration/"
+        },
+        "VerifiableCredentialOrJwt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/VerifiableCredential"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "VerifiableCredential": {
           "type": "object",

@@ -24,7 +24,12 @@ export interface IWellKnownDidConfigurationPluginArgs {
 }
 
 /**
- * The `DID configuration` schema. See https://identity.foundation/.well-known/resources/did-configuration/
+ * @beta
+ */
+export type VerifiableCredentialOrJwt = VerifiableCredential | string;
+
+/**
+ * The `DID configuration`
  * @beta
  */
 export interface IDidConfigurationSchema {
@@ -36,7 +41,7 @@ export interface IDidConfigurationSchema {
   /**
    * The list of VCs linking 
    */
-  linked_dids: string[],
+  linked_dids: VerifiableCredentialOrJwt[],
 }
 
 /**

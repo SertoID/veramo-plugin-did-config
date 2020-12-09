@@ -12,17 +12,31 @@
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}/node_modules/daf-cli/build/cli.js",
-      "args": ["server"]
+      "args": [
+        "server"
+      ]
     },
     {
       "type": "node",
       "request": "launch",
       "name": "well known",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "program": "${workspaceFolder}/node_modules/daf-cli/build/cli.js",
-      "args": ["execute", "-m", "verifyWellKnownDidConfiguration", "-a", "{\"domain\": \"identity.foundation\"}"],
+      "args": [
+        "execute",
+        "-m",
+        "verifyWellKnownDidConfiguration",
+        "-a",
+        "{\"domain\": \"identity.foundation\"}"
+      ],
       "sourceMaps": true,
-      //"resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"]
+      // "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/@microsoft/api-extractor/**", "!**/node_modules/ts-json-schema-generator/**"],
+      "disableOptimisticBPs": true,
+      "runtimeArgs": [
+        "--preserve-symlinks"
+      ]
     }
   ]
 }
