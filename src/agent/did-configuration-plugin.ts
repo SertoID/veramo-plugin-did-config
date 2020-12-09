@@ -59,7 +59,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
         proofFormat: 'jwt'
       });
 
-      didConfiguration.linked_dids.push(vc);
+      didConfiguration.linked_dids.push(vc.proof.jwt);
     }
 
     return didConfiguration;
@@ -69,23 +69,22 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
   private async verifyWellKnownDidConfiguration(args: IWellKnownDidConfigurationVerificationArgs, context: IContext): Promise<IDidConfigurationSchema> {
     const domain = args.domain.replace("https://", "").replace("http://", "");
 
-    // Check domain correctnes
-    // if (!validator.isURL(args.domain, { require_valid_protocol: false })) throw "Invalid web domain";
+    // TODO Check domain correctnes
+    // if (!validator.isURL(args.domain, { require_valid_protocol: false })) throw  { message: "Invalid web domain" };
 
     const didConfigUrl = "https://" + domain + WELL_KNOWN_DID_CONFIGURATION_PATH;
     let didConfiguration: IDidConfigurationSchema;
     try {
       let content: Response = await fetch(didConfigUrl);
-      // let content: string = await download(didConfigUrl); // TODO Replace with "fetch"?
       didConfiguration = await content.json();
     } catch (error) {
-      throw "Failed to download the .well-known DID configuration at '" + didConfigUrl + "'. Error: " + error + "";
+      throw { message: "Failed to download the .well-known DID configuration at '" + didConfigUrl + "'. Error: " + error + "" };
     }
 
-    if (!didConfiguration.linked_dids) throw "The DID configuration must contain a `linked_dids` property.";
+    if (!didConfiguration.linked_dids) throw { message: "The DID configuration must contain a `linked_dids` property." };
 
     for (let vc of didConfiguration.linked_dids) {
-      // Check the VC signature
+      // Verify the VC
       let credential: string = typeof vc === "string" ? vc : JSON.stringify(vc);
       let msg: IMessage;
       try {
@@ -93,34 +92,20 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
         if (!msg) continue;
       } catch (e) {
         // Some of the VCs couldn't be verified! We should remove it from the list later.
-        throw "Invalid VC in the DID configuration: " + credential;
+        throw { message: "Invalid VC in the DID configuration: " + credential };
       }
 
-      if (!msg.credentials) throw "No linked domain found on VC: " + credential;
+      if (!msg.credentials) throw { message: "No linked domain found on VC: " + credential };
 
       let verified: VerifiableCredential = msg.credentials[0];
 
       // Check if the linked domain matches with the domain hosting the DID configuration
-      if (verified.credentialSubject.origin !== domain) throw "The DID '" + verified.credentialSubject.id + "' is linked to an unexpected domain: " + verified.credentialSubject.origin;
+      if (verified.credentialSubject.origin !== domain) {
+        throw { message: "The DID '" + verified.credentialSubject.id + "' is linked to an unexpected domain '" + verified.credentialSubject.origin + "', instead of '" + domain + "'"};
+      }
     }
 
     return didConfiguration;
   }
 }
 
-
-const download = (url: string) => {
-  return new Promise<string>((resolve, reject) => {
-    request(url, (error, response, body) => {
-      if (error) reject(error);
-      if (response.statusCode != 200) {
-        reject('Invalid status code <' + response.statusCode + '>');
-      }
-      resolve(body);
-    });
-  });
-};
-
-const verifyVerifiableCredential = (vc: VerifiableCredential) => {
-
-};
