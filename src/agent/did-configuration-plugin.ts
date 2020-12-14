@@ -7,7 +7,7 @@ import {
   IWellKnownDidConfigurationPluginArgs,
   IWellKnownDidConfigurationVerificationArgs
 } from '../types/IWellKnownDidConfigurationPlugin';
-
+import fetch, { Response } from "node-fetch";
 
 const WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI = "https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld";
 const WELL_KNOWN_DID_CONFIGURATION_PATH = "/.well-known/did-configuration.json";
