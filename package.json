@@ -32,7 +32,9 @@
     "LICENSE"
   ],
   "dependencies": {
+    "@types/node-fetch": "^2.5.7",
     "daf-core": "^7.0.0-beta.56",
-    "daf-w3c": "^7.0.0-beta.56"
+    "daf-w3c": "^7.0.0-beta.56",
+    "node-fetch": "^2.6.1"
   }
 }
