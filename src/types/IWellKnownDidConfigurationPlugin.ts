@@ -45,6 +45,29 @@ export interface IDidConfigurationSchema {
 }
 
 /**
+ * Well Known DID Configuration verification response
+ * @beta
+ */
+export interface IWKDidConfigVerification {
+  /**
+   * The domain used in the verification
+   */
+  domain: string,
+  /**
+   * The DIDs in the DID configuration
+   */
+  dids: string[],
+  /**
+   * The DID configuration
+   */
+  didConfiguration: IDidConfigurationSchema,
+  /**
+   * Validity of the DID configuration 
+   */
+  valid: boolean,
+}
+
+/**
  * The arguments to verify the .well-known DID configuration from a web domain.
  * @beta
  */
@@ -81,5 +104,5 @@ export interface IWellKnownDidConfigurationPlugin extends IPluginMethodMap {
   verifyWellKnownDidConfiguration(
     args: IWellKnownDidConfigurationVerificationArgs,
     context: IContext,
-  ): Promise<IDidConfigurationSchema>
+  ): Promise<IWKDidConfigVerification>
 }

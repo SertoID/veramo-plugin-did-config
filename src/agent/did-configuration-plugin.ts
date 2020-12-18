@@ -5,7 +5,8 @@ import {
   IDidConfigurationSchema,
   IWellKnownDidConfigurationPlugin,
   IWellKnownDidConfigurationPluginArgs,
-  IWellKnownDidConfigurationVerificationArgs
+  IWellKnownDidConfigurationVerificationArgs,
+  IWKDidConfigVerification
 } from '../types/IWellKnownDidConfigurationPlugin';
 import fetch, { Response } from "node-fetch";
 
@@ -64,8 +65,9 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
   }
 
   /** {@inheritDoc IWellKnownDidConfigurationPlugin.verifyWellKnownDidConfiguration} */
-  private async verifyWellKnownDidConfiguration(args: IWellKnownDidConfigurationVerificationArgs, context: IContext): Promise<IDidConfigurationSchema> {
+  private async verifyWellKnownDidConfiguration(args: IWellKnownDidConfigurationVerificationArgs, context: IContext): Promise<IWKDidConfigVerification> {
     const domain = args.domain.replace("https://", "").replace("http://", "");
+
 
     // TODO Check domain correctness
     // if (!validator.isURL(args.domain, { require_valid_protocol: false })) throw  { message: "Invalid web domain" };
@@ -80,6 +82,8 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
     }
 
     if (!didConfiguration.linked_dids) throw { message: "The DID configuration must contain a `linked_dids` property." };
+
+    const dids : string[] = [];
 
     for (let vc of didConfiguration.linked_dids) {
       // Verify the VC
@@ -107,9 +111,16 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       if (verified.credentialSubject.origin !== domain) {
         throw { message: `The DID ${verified.credentialSubject.id} is linked to an unexpected domain ${verified.credentialSubject.origin}, instead of ${domain}`};
       }
+
+      dids.push(<string> verified.credentialSubject.id);
     }
 
-    return didConfiguration;
+    return {
+      domain,
+      dids,
+      didConfiguration,
+      valid: true,
+    };
   }
 }
 

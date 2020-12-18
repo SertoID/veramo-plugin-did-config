@@ -143,6 +143,37 @@
             "domain"
           ],
           "description": "The arguments to verify the .well-known DID configuration from a web domain."
+        },
+        "IWKDidConfigVerification": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "type": "string",
+              "description": "The domain used in the verification"
+            },
+            "dids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "The DIDs in the DID configuration"
+            },
+            "didConfiguration": {
+              "$ref": "#/components/schemas/IDidConfigurationSchema",
+              "description": "The DID configuration"
+            },
+            "valid": {
+              "type": "boolean",
+              "description": "Validity of the DID configuration"
+            }
+          },
+          "required": [
+            "domain",
+            "dids",
+            "didConfiguration",
+            "valid"
+          ],
+          "description": "Well Known DID Configuration verification response"
         }
       },
       "methods": {
@@ -161,7 +192,7 @@
             "$ref": "#/components/schemas/IWellKnownDidConfigurationVerificationArgs"
           },
           "returnType": {
-            "$ref": "#/components/schemas/IDidConfigurationSchema"
+            "$ref": "#/components/schemas/IWKDidConfigVerification"
           }
         }
       }
