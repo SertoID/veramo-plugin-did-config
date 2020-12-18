@@ -1,7 +1,7 @@
 {
   "name": "daf-plugin-did-config",
   "description": "DAF Plugin that generates DID configuration files to be used in the DIF Well Known DID Configuration standard: https://identity.foundation/.well-known/resources/did-configuration/",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "source": "src/index.ts",
   "main": "build/index.js",
   "types": "build/index.d.ts",
