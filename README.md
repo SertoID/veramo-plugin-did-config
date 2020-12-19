@@ -3,8 +3,11 @@
 * `yarn build` or `yarn watch`
 * `yarn generate-plugin-schema`
 * `yarn start` or VSCode Debugger (CMD + Shift + D) > Run `OpenAPI server`  
-  
-  
+
+## Installation
+```js
+yarn add daf-plugin-did-config
+```
 
 ## Usage
 The minimum daf configuration for using this library requires the following dependencies:
