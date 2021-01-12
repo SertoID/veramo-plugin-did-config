@@ -1,27 +1,27 @@
 {
-  "name": "daf-plugin-did-config",
-  "description": "DAF Plugin that generates DID configuration files to be used in the DIF Well Known DID Configuration standard: https://identity.foundation/.well-known/resources/did-configuration/",
+  "name": "@veramo/plugin-did-config",
+  "description": "veramo Plugin that generates DID configuration files to be used in the DIF Well Known DID Configuration standard: https://identity.foundation/.well-known/resources/did-configuration/",
   "version": "1.0.2",
   "source": "src/index.ts",
   "main": "build/index.js",
   "types": "build/index.d.ts",
-  "daf": {
+  "veramo": {
     "pluginInterfaces": {
       "IWellKnownDidConfigurationPlugin": "./src/types/IWellKnownDidConfigurationPlugin.ts"
     }
   },
   "scripts": {
     "build": "tsc",
-    "generate-plugin-schema": "yarn daf generate-plugin-schema",
-    "start": "daf server",
-    "verify": "daf execute -m verifyWellKnownDidConfiguration -a \"{\\\"domain\\\": \\\"identity.foundation\\\"}\"",
+    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema",
+    "start": "veramo server",
+    "verify": "veramo execute -m verifyWellKnownDidConfiguration -a \"{\\\"domain\\\": \\\"identity.foundation\\\"}\"",
     "watch": "tsc -b --watch",
     "clean": "rm -rf tmp && rm database.sqlite && rm -rf build && rm tsconfig.tsbuildinfo",
-    "upgrade-daf": "yarn add -D daf-cli@beta && yarn add daf-w3c@beta daf-core@beta"
+    "upgrade-veramo": "yarn add -D @veramo/cli@beta && yarn add @veramo/w3c@beta @veramo/core@beta"
   },
   "license": "MIT",
   "devDependencies": {
-    "daf-cli": "^7.0.0-beta.56",
+    "@veramo/cli": "^1.0.2-next.8",
     "typescript": "^4.0.5"
   },
   "files": [
@@ -33,8 +33,9 @@
   ],
   "dependencies": {
     "@types/node-fetch": "^2.5.7",
-    "daf-core": "^7.0.0-beta.56",
-    "daf-w3c": "^7.0.0-beta.56",
+    "@veramo/core": "^1.0.2-next.8",
+    "@veramo/data-store": "^1.0.2-next.8",
+    "@veramo/credential-w3c": "^1.0.2-next.8",
     "node-fetch": "^2.6.1"
   }
 }

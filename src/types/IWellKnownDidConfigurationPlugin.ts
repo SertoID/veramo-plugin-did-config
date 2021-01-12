@@ -1,11 +1,11 @@
-import { IPluginMethodMap, IAgentContext, IIdentityManager, IResolver, VerifiableCredential, IMessageHandler } from 'daf-core'
-import { ICredentialIssuer } from 'daf-w3c'
+import { IPluginMethodMap, IAgentContext, IDIDManager, IResolver, VerifiableCredential, IMessageHandler } from '@veramo/core'
+import { ICredentialIssuer } from '@veramo/credential-w3c'
 
 /**
  * Plugin context
  * @beta
  */
-export type IContext = IAgentContext<IResolver & IIdentityManager & ICredentialIssuer & IMessageHandler>
+export type IContext = IAgentContext<IResolver & IDIDManager & ICredentialIssuer & IMessageHandler>
 
 /**
  * The arguments for the .well-known DID configuration plugin.
