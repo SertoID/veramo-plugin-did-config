@@ -66,7 +66,7 @@ Clone the plugin repo in your machine and configure the agent instance by editin
 ```yarn daf execute -m identityManagerCreateIdentity -a "{}"```
 
 3. Execute the following command to generate your Well-Known DID configuration file, using the DID created in the previous step and the domain from your company:
-```yarn daf execute -m generateDidConfiguration" -a "{\"dids\":[\"<did>\"],\"domain\":\"<domain>\"}"```
+```yarn daf execute -m generateDidConfiguration -a "{\"dids\":[\"<did>\"],\"domain\":\"<domain>\"}"```
 
 4. Upload the Well-Known DID Configuration file to the company website and host it under the well-known URI:
 ```https://<domain>/.well-known/did-configuration.json```
