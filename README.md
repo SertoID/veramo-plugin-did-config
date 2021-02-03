@@ -6,7 +6,7 @@
 
 ## Installation
 ```js
-yarn add daf-plugin-did-config
+yarn add veramo-plugin-did-config
 ```
 
 ## Usage
