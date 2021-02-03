@@ -13,24 +13,24 @@ yarn add daf-plugin-did-config
  
 ### Programatically usage
 
-The minimum daf configuration for using this library requires the following dependencies:
+The minimum Veramo configuration for using this library requires the following dependencies:
 
 ```jsx
-yarn add daf-core daf-message-handler daf-resolver-universal daf-w3c daf-did-jwt
+yarn add @veramo/core @veramo/message-handler @veramo/resolver-universal @veramo/credential-w3c @veramo/did-jwt
 ```
 
-when initializing your daf agent message handler, the order of the handlers matters. `JwtMessageHandler` should be first.
+when initializing your Veramo agent message handler, the order of the handlers matters. `JwtMessageHandler` should be first.
 
 ```
-import { createAgent } from "daf-core";
+import { createAgent } from "@veramo/core";
 import {
   DIDConfigurationPlugin,
   IWellKnownDidConfigurationPlugin,
 } from "daf-plugin-did-config";
-import { MessageHandler } from "daf-message-handler";
-import { CredentialIssuer, W3cMessageHandler } from "daf-w3c";
-import { DafUniversalResolver } from "daf-resolver-universal";
-import { JwtMessageHandler } from "daf-did-jwt";
+import { MessageHandler } from "@veramo/message-handler";
+import { CredentialIssuer, W3cMessageHandler } from "@veramo/credential-w3c";
+import { VeramoUniversalResolver } from "@veramo/resolver-universal";
+import { JwtMessageHandler } from "@veramo/did-jwt";
 
 export const agent = createAgent<IWellKnownDidConfigurationPlugin>({
   plugins: [
@@ -38,7 +38,7 @@ export const agent = createAgent<IWellKnownDidConfigurationPlugin>({
     new MessageHandler({
       messageHandlers: [new JwtMessageHandler(), new W3cMessageHandler()],
     }),
-    new DafUniversalResolver({
+    new VeramoUniversalResolver({
       url: "https://uniresolver.io/1.0/identifiers/",
     }),
     new CredentialIssuer(),
@@ -63,13 +63,13 @@ Clone the plugin repo in your machine and configure the agent instance by editin
 ```yarn && yarn build && yarn start```
 
 2. Execute the following command to generate a DID:
-```yarn daf execute -m identityManagerCreateIdentity -a "{}"```
+```yarn veramo execute -m identityManagerCreateIdentity -a "{}"```
 
 3. Execute the following command to generate your Well-Known DID configuration file, using the DID created in the previous step and the domain from your company:
-```yarn daf execute -m generateDidConfiguration -a "{\"dids\":[\"<did>\"],\"domain\":\"<domain>\"}"```
+```yarn veramo execute -m generateDidConfiguration -a "{\"dids\":[\"<did>\"],\"domain\":\"<domain>\"}"```
 
 4. Upload the Well-Known DID Configuration file to the company website and host it under the well-known URI:
 ```https://<domain>/.well-known/did-configuration.json```
 
 5. Verify your Well-Known DID Configuration running:
-```yarn daf execute -m verifyWellKnownDidConfiguration -a "{\"domain\": \"<domain>\"}"```
+```yarn veramo execute -m verifyWellKnownDidConfiguration -a "{\"domain\": \"<domain>\"}"```

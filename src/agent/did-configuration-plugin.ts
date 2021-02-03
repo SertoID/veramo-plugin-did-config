@@ -1,4 +1,4 @@
-import { IAgentPlugin, IIdentity, IMessage, VerifiableCredential } from 'daf-core';
+import { IAgentPlugin, IIdentifier, IMessage, VerifiableCredential } from '@veramo/core';
 import { schema } from '../index';
 import {
   IContext,
@@ -40,7 +40,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
     };
 
     for (const did of args.dids) {
-      const identity: IIdentity = await context.agent.identityManagerGetIdentity({ did: did });
+      const identity: IIdentifier = await context.agent.identityManagerGetIdentity({ did: did });
 
       const payload = {
         '@context': ["https://www.w3.org/2018/credentials/v1", WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI],
