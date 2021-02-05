@@ -26,6 +26,7 @@ server:
   #   - resolveDid
   #   - dataStoreORMGetIdentities
 constants:
+  # DON'T use this key in production!!!! It's only an example.
   secretKey: 29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c
   databaseFile: ./database.sqlite
 
@@ -134,22 +135,7 @@ agent:
                       rpcUrl: https://rinkeby.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
                       gas: 1000001
                       ttl: 31104001
-                did:ethr:ropsten:
-                  $require: '@veramo/did-provider-ethr#EthrDIDProvider'
-                  $args:
-                    - defaultKms: local
-                      network: ropsten
-                      rpcUrl: https://ropsten.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-                      gas: 1000001
-                      ttl: 31104001
-                did:ethr:kovan:
-                  $require: '@veramo/did-provider-ethr#EthrDIDProvider'
-                  $args:
-                    - defaultKms: local
-                      network: kovan
-                      rpcUrl: https://kovan.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c
-                      gas: 1000001
-                      ttl: 31104001
+                # did-provider-ethr can be used multiple times with multiple networks
                 did:ethr:goerli:
                   $require: '@veramo/did-provider-ethr#EthrDIDProvider'
                   $args:
@@ -173,6 +159,5 @@ agent:
           $args:
             - $ref: /dbConnection
         - $ref: /messageHandler
-        - $require: '@veramo/did-comm#DIDComm'
         - $require: '@veramo/credential-w3c#CredentialIssuer'
-        - $require: '@veramo/selective-disclosure#SelectiveDisclosure'
+        - $require: ./build/agent/did-configuration-plugin#DIDConfigurationPlugin
