@@ -5,25 +5,26 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
+      "type": "pwa-node",
       "request": "launch",
       "name": "OpenAPI server",
-      "skipFiles": [
-        "<node_internals>/**"
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/node_modules/@veramo/cli/bin/veramo.js",
+      "args": ["server"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/@microsoft/api-extractor/**",
+        "!**/node_modules/ts-json-schema-generator/**"
       ],
-      "program": "${workspaceFolder}/node_modules/daf-cli/build/cli.js",
-      "args": [
-        "server"
-      ]
+      "runtimeArgs": ["--preserve-symlinks"]
     },
     {
-      "type": "node",
+      "type": "pwa-node",
       "request": "launch",
       "name": "well known",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "program": "${workspaceFolder}/node_modules/daf-cli/build/cli.js",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/node_modules/@veramo/cli/bin/veramo.js",
       "args": [
         "execute",
         "-m",
@@ -32,11 +33,12 @@
         "{\"domain\": \"identity.foundation\"}"
       ],
       "sourceMaps": true,
-      // "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/@microsoft/api-extractor/**", "!**/node_modules/ts-json-schema-generator/**"],
-      "disableOptimisticBPs": true,
-      "runtimeArgs": [
-        "--preserve-symlinks"
-      ]
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/@microsoft/api-extractor/**",
+        "!**/node_modules/ts-json-schema-generator/**"
+      ],
+      "runtimeArgs": ["--preserve-symlinks"]
     }
   ]
 }
