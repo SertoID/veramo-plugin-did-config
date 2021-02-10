@@ -2,10 +2,10 @@ import { IPluginMethodMap, IAgentContext, IDIDManager, IResolver, VerifiableCred
 import { ICredentialIssuer } from '@veramo/credential-w3c'
 
 /**
- * Plugin context
+ * This is the context expected to be installed on the agent where this plugin is used.
  * @beta
  */
-export type IContext = IAgentContext<IResolver & IDIDManager & ICredentialIssuer & IMessageHandler>
+export type IContext = IAgentContext<IDIDManager & ICredentialIssuer & IMessageHandler>
 
 /**
  * The arguments for the .well-known DID configuration plugin.
@@ -80,7 +80,9 @@ export interface IWellKnownDidConfigurationVerificationArgs {
 
 /**
  * .well-known DID configuration Plugin
- * @beta
+ * 
+ * These are the agent methods provided by this plugin to the agent where it is installed.
+  * @beta
  */
 export interface IWellKnownDidConfigurationPlugin extends IPluginMethodMap {
   /**
