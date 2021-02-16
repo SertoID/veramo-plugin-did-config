@@ -1,5 +1,5 @@
-import { IPluginMethodMap, IAgentContext, IDIDManager, IResolver, VerifiableCredential, IMessageHandler } from '@veramo/core'
-import { ICredentialIssuer } from '@veramo/credential-w3c'
+import { IAgentContext, IDIDManager, IMessageHandler, IPluginMethodMap, VerifiableCredential } from '@veramo/core';
+import { ICredentialIssuer } from '@veramo/credential-w3c';
 
 /**
  * This is the context expected to be installed on the agent where this plugin is used.
@@ -36,12 +36,36 @@ export interface IDidConfigurationSchema {
   /**
    * https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld
    */
-  '@context': string,
+  '@context': string;
 
   /**
    * The list of VCs linking 
    */
-  linked_dids: VerifiableCredentialOrJwt[],
+  linked_dids: VerifiableCredentialOrJwt[];
+
+  /**
+   * Legacy support. 
+   * @see linked_dids
+   * @deprecated 
+   */
+  entries?: VerifiableCredentialOrJwt[]; // Legacy support
+}
+
+/**
+ * The DID configuration can contain DIDs which methods are not resolved yet or VCs 
+ * not following the well-known DID configuration specification. In those cases this
+ * object is returned with details about the verification process.
+ */
+export interface IWKDidConfigVerificationError {
+  /**
+   * The VC that failed in the verification.
+   */
+  vc: string,
+
+  /**
+   * Reason for the verification error. Detailed error messages.
+   */
+  errors: string[]
 }
 
 /**
@@ -53,14 +77,22 @@ export interface IWKDidConfigVerification {
    * The domain used in the verification
    */
   domain: string,
+
   /**
    * The DIDs in the DID configuration
    */
   dids: string[],
+
+  /**
+   * Possible failures during the verification of each VC in the DID configuration.
+   */
+  errors: IWKDidConfigVerificationError[],
+
   /**
    * The DID configuration
    */
   didConfiguration: IDidConfigurationSchema,
+
   /**
    * Validity of the DID configuration 
    */
