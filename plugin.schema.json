@@ -36,6 +36,13 @@
                 "$ref": "#/components/schemas/VerifiableCredentialOrJwt"
               },
               "description": "The list of VCs linking"
+            },
+            "entries": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VerifiableCredentialOrJwt"
+              },
+              "description": "Legacy support."
             }
           },
           "required": [
@@ -158,6 +165,13 @@
               },
               "description": "The DIDs in the DID configuration"
             },
+            "errors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/IWKDidConfigVerificationError"
+              },
+              "description": "Possible failures during the verification of each VC in the DID configuration."
+            },
             "didConfiguration": {
               "$ref": "#/components/schemas/IDidConfigurationSchema",
               "description": "The DID configuration"
@@ -174,6 +188,27 @@
             "valid"
           ],
           "description": "Well Known DID Configuration verification response"
+        },
+        "IWKDidConfigVerificationError": {
+          "type": "object",
+          "properties": {
+            "vc": {
+              "type": "string",
+              "description": "The VC that failed in the verification."
+            },
+            "errors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Reason for the verification error. Detailed error messages."
+            }
+          },
+          "required": [
+            "vc",
+            "errors"
+          ],
+          "description": "The DID configuration can contain DIDs which methods are not resolved yet or VCs  not following the well-known DID configuration specification. In those cases this object is returned with details about the verification process."
         }
       },
       "methods": {

@@ -1,7 +1,7 @@
 {
   "name": "veramo-plugin-did-config",
   "description": "veramo plugin that generates DID configuration files to be used in the DIF Well Known DID Configuration standard: https://identity.foundation/.well-known/resources/did-configuration/",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "source": "src/index.ts",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -22,7 +22,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@veramo/cli": "1.1.0",
+    "@veramo/cli": "^1.1.0",
+    "@veramo/did-manager": "^1.1.0",
     "jest": "^26.6.3",
     "jest-extended": "^0.11.5",
     "ts-jest": "^26.5.0",
@@ -41,11 +42,15 @@
     "@veramo/credential-w3c": "^1.1.0",
     "@veramo/data-store": "^1.1.0",
     "@veramo/did-jwt": "^1.1.0",
+    "@veramo/did-provider-ethr": "^1.1.1-next.10",
+    "@veramo/did-provider-key": "^1.1.1-next.10",
+    "@veramo/did-provider-web": "^1.1.1-next.10",
     "@veramo/did-resolver": "^1.1.0",
     "@veramo/key-manager": "^1.1.0",
     "@veramo/kms-local": "^1.1.0",
     "@veramo/message-handler": "^1.1.0",
     "did-resolver": "^2.1.2",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "vc-js": "https://github.com/digitalbazaar/vc-js"
   }
 }
