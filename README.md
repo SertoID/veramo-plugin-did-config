@@ -1,3 +1,7 @@
+
+[![SertoID](https://circleci.com/gh/SertoID/id-phonebook-backend.svg?style=svg&circle-token=5694369b00d921bba204ece9db2a51796f2b9491)](https://circleci.com/gh/SertoID/serto-agent-ui/tree/master)
+[![codecov](https://codecov.io/gh/SertoID/veramo-plugin-did-config/branch/main/graph/badge.svg?token=MLDGVJUHMC)](https://codecov.io/gh/SertoID/veramo-plugin-did-config)
+
 ## Local Development
 * `yarn`
 * `yarn build` or `yarn watch`
