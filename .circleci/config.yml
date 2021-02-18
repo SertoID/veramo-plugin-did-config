@@ -51,10 +51,11 @@ jobs:
   test:
     <<: *defaults
     steps:
+      - checkout
       - attach_workspace:
           at: ./
       - run:
-          name: Running tests in a remote docker engine
+          name: Running tests
           command: yarn test-ci
   codecov:
     <<: *defaults
