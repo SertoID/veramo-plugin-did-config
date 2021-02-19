@@ -2,6 +2,7 @@ codecov:
   token: 52728425-4c20-4010-a3b3-e1133def544e
   notify:
     require_ci_to_pass: yes
+  disable_default_path_fixes: false
 
   coverage:
     precision: 2
