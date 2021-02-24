@@ -38,6 +38,9 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
 
   /** {@inheritDoc IWellKnownDidConfigurationPlugin.generateDidConfiguration} */
   private async generateDidConfiguration(args: IWellKnownDidConfigurationPluginArgs, context: IContext): Promise<IDidConfigurationSchema> {
+    const domain = args.domain;
+    if (!this.isValidDomain(domain)) throw { message: "Invalid web domain" };
+
     const didConfiguration: IDidConfigurationSchema = {
       '@context': WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI,
       linked_dids: [],
@@ -50,10 +53,9 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
         '@context': ["https://www.w3.org/2018/credentials/v1", WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI],
         type: ["VerifiableCredential", "DomainLinkageCredential"],
         issuer: { id: identity.did },
-        //issuanceDate: new Date().toISOString(),
         credentialSubject: {
-          "did": identity.did,
-          origin: args.domain
+          id: identity.did,
+          origin: domain
         }
       };
 
@@ -72,8 +74,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
   private async verifyWellKnownDidConfiguration(args: IWellKnownDidConfigurationVerificationArgs, context: IContext): Promise<IWKDidConfigVerification> {
     const domain = removeUrlProtocol(args.domain);
 
-    // TODO Check domain correctness
-    // if (!validator.isURL(args.domain, { require_valid_protocol: false })) throw  { message: "Invalid web domain" };
+    if (!this.isValidDomain(domain)) throw  { message: "Invalid web domain" };
 
     const didConfigUrl = "https://" + domain + WELL_KNOWN_DID_CONFIGURATION_PATH;
     let didConfiguration: IDidConfigurationSchema;
@@ -128,6 +129,10 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       didConfiguration,
       valid: true,
     };
+  }
+
+  private isValidDomain(domain: string) {
+    return domain.match("^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$");
   }
 
   private async verifyVc(vc: VerifiableCredential, context: IContext): Promise<VerifiableCredential | PromiseLike<VerifiableCredential>> {

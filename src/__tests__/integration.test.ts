@@ -17,6 +17,7 @@ import {
 } from "../index";
 import { KeyManager } from "@veramo/key-manager";
 import { KeyManagementSystem, SecretBox } from "@veramo/kms-local";
+import { KeyDIDProvider } from "@veramo/did-provider-key";
 
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c';
 
@@ -48,8 +49,14 @@ export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICr
       store: new DIDStore(dbConnection),
       defaultProvider: 'did:web',
       providers: {
-        'did:web': new WebDIDProvider({
+        'did:web': new WebDIDProvider({ defaultKms: 'local' }),
+        'did:key': new KeyDIDProvider({ defaultKms: 'local' }),        
+        'did:ethr:rinkeby': new EthrDIDProvider({
           defaultKms: 'local',
+          network: 'rinkeby',
+          rpcUrl: 'https://rinkeby.infura.io/v3/',
+          gas: 1000001,
+          ttl: 60 * 60 * 24 * 30 * 12 + 1,
         }),
       },
     }),
@@ -91,12 +98,41 @@ describe(".well-known DID configuration GENERATOR", () => {
       domain: "mesh.xyz"
     });
     expect(result.linked_dids.length).toEqual(1);
-    console.log(JSON.stringify(result));
   });
 
-  it.todo("DID configuration with multiple DIDs from distinct methods");
-  it.todo("Invalid domain should fail");
-  it.todo("DID configuration with no DID should fail");
+  it("Invalid domain should fail", async () => {
+    try {
+      await agent.generateDidConfiguration({
+        dids: ["did.did"],
+        domain: "mesh~.xyz"
+      });
+      throw "An invalid domain was accepted";
+    } catch (err) {
+      expect(err.message).toEqual("Invalid web domain");
+    }
+  });
+
+  it("DID configuration with no DID should fail", async () => {
+    try {
+      await agent.generateDidConfiguration({
+        dids: ["invalid-did"],
+        domain: "mesh.xyz"
+      });
+      throw "An invalid DID was accepted";
+    } catch (err) {
+      expect(err.message).toEqual("Identifier not found");
+    }
+  });
+
+  it("DID configuration with multiple DIDs from distinct methods", async () => {
+    const didWeb = await agent.didManagerCreate({ provider: "did:web", alias: "serto.id" });
+    const didKey = await agent.didManagerCreate({ provider: "did:ethr:rinkeby" });
+    const result = await agent.generateDidConfiguration({
+      dids: [didWeb.did, didKey.did],
+      domain: "mesh.xyz"
+    });
+    expect(result.linked_dids.length).toEqual(2);
+  });
 });
 
 async function checkDidConfigForDomain(testDomain: string, numberOfExpectedDids: number): Promise<IWKDidConfigVerification> {

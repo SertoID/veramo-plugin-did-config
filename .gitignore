@@ -4,3 +4,4 @@ tmp
 database.sqlite
 tsconfig.tsbuildinfo
 /.idea/
+*.log
