@@ -50,9 +50,9 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
         '@context': ["https://www.w3.org/2018/credentials/v1", WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI],
         type: ["VerifiableCredential", "DomainLinkageCredential"],
         issuer: { id: identity.did },
-        issuanceDate: new Date().toISOString(),
+        //issuanceDate: new Date().toISOString(),
         credentialSubject: {
-          id: identity.did,
+          "did": identity.did,
           origin: args.domain
         }
       };

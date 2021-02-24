@@ -85,12 +85,13 @@ describe(".well-known DID configuration VERIFICATION", () => {
 
 describe(".well-known DID configuration GENERATOR", () => {
   it("Generate a DID configuration", async () => {
-    const did = await agent.didManagerCreate();
+    const did = await agent.didManagerCreate({ alias: "mesh.xyz" });
     const result = await agent.generateDidConfiguration({
       dids: [did.did],
       domain: "mesh.xyz"
     });
     expect(result.linked_dids.length).toEqual(1);
+    console.log(JSON.stringify(result));
   });
 
   it.todo("DID configuration with multiple DIDs from distinct methods");
@@ -104,7 +105,7 @@ async function checkDidConfigForDomain(testDomain: string, numberOfExpectedDids:
       domain: testDomain,
     }
   );
-  const { domain, dids, didConfiguration, valid } = result;
+  const { domain, dids, didConfiguration, errors, valid } = result;
   expect(domain).toBe(testDomain);
   expect(valid).toBe(true);
   expect(dids).toHaveLength(numberOfExpectedDids);
