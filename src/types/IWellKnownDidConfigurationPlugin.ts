@@ -89,7 +89,7 @@ export interface IWKDidConfigVerification {
   errors: IWKDidConfigVerificationError[],
 
   /**
-   * The DID configuration
+   * The DID configuration with JWTs exapanded.
    */
   didConfiguration: IDidConfigurationSchema,
 
@@ -97,6 +97,11 @@ export interface IWKDidConfigVerification {
    * Validity of the DID configuration 
    */
   valid: boolean,
+
+  /**
+   * The raw DID configuration.
+   */
+  rawDidConfiguration: string;
 }
 
 /**

@@ -174,18 +174,24 @@
             },
             "didConfiguration": {
               "$ref": "#/components/schemas/IDidConfigurationSchema",
-              "description": "The DID configuration"
+              "description": "The DID configuration with JWTs exapanded."
             },
             "valid": {
               "type": "boolean",
               "description": "Validity of the DID configuration"
+            },
+            "rawDidConfiguration": {
+              "type": "string",
+              "description": "The raw DID configuration."
             }
           },
           "required": [
             "domain",
             "dids",
+            "errors",
             "didConfiguration",
-            "valid"
+            "valid",
+            "rawDidConfiguration"
           ],
           "description": "Well Known DID Configuration verification response"
         },

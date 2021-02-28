@@ -76,11 +76,12 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
     // if (!validator.isURL(args.domain, { require_valid_protocol: false })) throw  { message: "Invalid web domain" };
 
     const didConfigUrl = "https://" + domain + WELL_KNOWN_DID_CONFIGURATION_PATH;
+    let rawDidConfiguration: string;
     let didConfiguration: IDidConfigurationSchema;
     try {
       let content: Response = await fetch(didConfigUrl);
-      const rawDidConfig: string = await content.text();
-      didConfiguration = <any>JSON.parse(rawDidConfig); // await content.json();
+      rawDidConfiguration = await content.text();
+      didConfiguration = <any>JSON.parse(rawDidConfiguration); // await content.json();
     } catch (error) {
       throw { message: "Failed to download the .well-known DID configuration at '" + didConfigUrl + "'. Error: " + error + "" };
     }
@@ -127,6 +128,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       errors: errors,
       didConfiguration,
       valid: true,
+      rawDidConfiguration
     };
   }
 
