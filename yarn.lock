@@ -1129,7 +1129,7 @@
 
 "@veramo/cli@^1.1.0":
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@veramo/cli/-/cli-1.1.0.tgz#c8828de4e4ce2cc6751030f19183466cba44a859"
+  resolved "https://registry.yarnpkg.com/@veramo/cli/-/cli-1.1.0.tgz"
   integrity sha512-Yk82DEyGbtH3Wq7Cdymd9q9XT5/oVFfBd0OuLxuKBnuI9gDwb6nlNxHg6n3ka4yb/LLlOhaaysayCxjABPldXg==
   dependencies:
     "@microsoft/api-extractor" "7.13.0"
@@ -1188,7 +1188,7 @@
 
 "@veramo/core@^1.1.0":
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@veramo/core/-/core-1.1.0.tgz#4336408f5f6c57861259bed0ad6c11fbc491d775"
+  resolved "https://registry.yarnpkg.com/@veramo/core/-/core-1.1.0.tgz"
   integrity sha512-iFxEIydA9mUp9i+5n/1UfCu7uSAlShYgUeboyGCoUlEPKs/6EOEYs5dFICsa46T82PC0rhGukAu5bJbsZ7qvqw==
   dependencies:
     debug "^4.1.1"
@@ -1208,7 +1208,7 @@
 
 "@veramo/credential-w3c@^1.1.0":
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@veramo/credential-w3c/-/credential-w3c-1.1.0.tgz#d81555f5009cf6113cc930879752342f5847b26a"
+  resolved "https://registry.yarnpkg.com/@veramo/credential-w3c/-/credential-w3c-1.1.0.tgz"
   integrity sha512-B61buvVMk9/QOzE4GcZ9p9nJJTMZTnZ7qJL6G08e8EL4Vhye0TvO+1X95ctBa1xug69WaFwySiO+d+5MRJxa7g==
   dependencies:
     "@veramo/core" "^1.1.0"
@@ -1222,7 +1222,7 @@
 
 "@veramo/data-store@^1.1.0":
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@veramo/data-store/-/data-store-1.1.0.tgz#f7a8a6309c49744ed7cd37acf93568feea9eda5b"
+  resolved "https://registry.yarnpkg.com/@veramo/data-store/-/data-store-1.1.0.tgz"
   integrity sha512-FjLpMIXD49EEN9qjOetXhrTIGGVnVj6POJTdJQG1lQmvLSteCB2yunzqFzbK7N/Ok9vLDM48BH9Uz1xyDEDCNQ==
   dependencies:
     "@veramo/core" "^1.1.0"
@@ -1244,7 +1244,7 @@
 
 "@veramo/did-jwt@^1.1.0":
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@veramo/did-jwt/-/did-jwt-1.1.0.tgz#a03facfebb0c960d1d51a565c373f5eea22be69c"
+  resolved "https://registry.yarnpkg.com/@veramo/did-jwt/-/did-jwt-1.1.0.tgz"
   integrity sha512-x7Ua7pgxhochfy7x5dGVa6/WAMua5Jne9mqcQE6gRXvIxS1XZF5AcXk2oDre+28lLK/8/fbPg9llPBbJF8GfYQ==
   dependencies:
     "@veramo/core" "^1.1.0"
@@ -1322,7 +1322,7 @@
 
 "@veramo/did-resolver@^1.1.0":
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@veramo/did-resolver/-/did-resolver-1.1.0.tgz#da4762bad4436e93be74067af0deaa14eeaf7ad7"
+  resolved "https://registry.yarnpkg.com/@veramo/did-resolver/-/did-resolver-1.1.0.tgz"
   integrity sha512-V+GEIhsKQl4lIQ+BAO1XCoPWI/Nsm+gxaZnU7Al5V8Q1s9A372ibQpDb5kQ4bZPrQIn/zTLqegDTdvlTONTBRQ==
   dependencies:
     "@veramo/core" "^1.1.0"
@@ -1331,14 +1331,14 @@
 
 "@veramo/key-manager@^1.1.0":
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@veramo/key-manager/-/key-manager-1.1.0.tgz#c635232e820f8179fd2ecd05682690ef369a4039"
+  resolved "https://registry.yarnpkg.com/@veramo/key-manager/-/key-manager-1.1.0.tgz"
   integrity sha512-wN1XmN/oTw4tvnhBwqHo0uO6kcRFnI7K+KCezsdpsgtzzY4k8pogbkgg2X9kIOQKsU0IXgvu/6el7As23Bn/FQ==
   dependencies:
     "@veramo/core" "^1.1.0"
 
 "@veramo/kms-local@^1.1.0":
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@veramo/kms-local/-/kms-local-1.1.0.tgz#e6b40b84b1ca162a12de12d4a9d7f090fe9a4c68"
+  resolved "https://registry.yarnpkg.com/@veramo/kms-local/-/kms-local-1.1.0.tgz"
   integrity sha512-82Dx7/LJMNOL6Fr4dUMByr6OlYYDLAxVEMExdpG4MNnN+GPE/vHNqwlzls3Y4ItTaDO5ZFsbolSj/N+6sJkh4g==
   dependencies:
     "@veramo/core" "^1.1.0"
@@ -1352,7 +1352,7 @@
 
 "@veramo/message-handler@^1.1.0":
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@veramo/message-handler/-/message-handler-1.1.0.tgz#91e876b6e539d08c76b467445b9b301c2e61c439"
+  resolved "https://registry.yarnpkg.com/@veramo/message-handler/-/message-handler-1.1.0.tgz"
   integrity sha512-xwjJwjPnd+BD13LEv7T4XkMLE2AzojPYqPUNuS2S+veAd8qCb6nl2La/p2RK/ouKqXjKg/bUU1UV4vghLEK0uQ==
   dependencies:
     "@veramo/core" "^1.1.0"
