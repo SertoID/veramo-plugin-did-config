@@ -38,6 +38,9 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
 
   /** {@inheritDoc IWellKnownDidConfigurationPlugin.generateDidConfiguration} */
   private async generateDidConfiguration(args: IWellKnownDidConfigurationPluginArgs, context: IContext): Promise<IDidConfigurationSchema> {
+    const domain = args.domain;
+    if (!this.isValidDomain(domain)) throw { message: "Invalid web domain" };
+
     const didConfiguration: IDidConfigurationSchema = {
       '@context': WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI,
       linked_dids: [],
@@ -50,10 +53,9 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
         '@context': ["https://www.w3.org/2018/credentials/v1", WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI],
         type: ["VerifiableCredential", "DomainLinkageCredential"],
         issuer: { id: identity.did },
-        //issuanceDate: new Date().toISOString(),
         credentialSubject: {
-          "did": identity.did,
-          origin: args.domain
+          id: identity.did,
+          origin: domain
         }
       };
 
@@ -72,8 +74,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
   private async verifyWellKnownDidConfiguration(args: IWellKnownDidConfigurationVerificationArgs, context: IContext): Promise<IWKDidConfigVerification> {
     const domain = removeUrlProtocol(args.domain);
 
-    // TODO Check domain correctness
-    // if (!validator.isURL(args.domain, { require_valid_protocol: false })) throw  { message: "Invalid web domain" };
+    if (!this.isValidDomain(domain)) throw { message: "Invalid web domain" };
 
     const didConfigUrl = "https://" + domain + WELL_KNOWN_DID_CONFIGURATION_PATH;
     let rawDidConfiguration: string;
@@ -88,6 +89,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
 
     if (!didConfiguration.linked_dids && !didConfiguration.entries) throw { message: "The DID configuration must contain a `linked_dids` property." };
 
+    let valid = true;
     const dids: Set<string> = new Set();
     const errors: IWKDidConfigVerificationError[] = new Array();
     const linkedDids = didConfiguration.linked_dids || didConfiguration.entries;
@@ -101,14 +103,15 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
           verified = await this.verifyJwtVc(vc, context);
         } else {
           // non-JWT Credential
-          verified = await this.verifyVc(vc, context);
+          verified = await this.verifyLdVc(vc, context);
         }
 
         // Check if the linked domain matches with the domain hosting the DID configuration
         let origin = verified.credentialSubject.origin;
         origin = removeUrlProtocol(origin);
         if (origin !== domain) {
-          throw new Error(`The DID ${verified.credentialSubject.id} is linked to an unexpected domain ${verified.credentialSubject.origin}, instead of ${domain}`);
+          valid = false;
+          throw { message: `The DID ${verified.credentialSubject.id} is linked to an unexpected domain ${verified.credentialSubject.origin}, instead of ${domain}` };
         }
 
         // Add the verified DID to the list of the domain DIDs
@@ -118,7 +121,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       catch (error) {
         const nestedErrors = [error.message];
         if (error.errors) nestedErrors.push(error.errors);
-        errors.push({ vc: JSON.stringify(vc), errors: nestedErrors });
+        errors.push({ vc: (typeof vc === 'string' ? vc : JSON.stringify(vc)), errors: nestedErrors });
       }
     }
 
@@ -127,12 +130,16 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       dids: Array.from(dids),
       errors: errors,
       didConfiguration,
-      valid: true,
+      valid: valid && dids.size > 0,
       rawDidConfiguration
     };
   }
 
-  private async verifyVc(vc: VerifiableCredential, context: IContext): Promise<VerifiableCredential | PromiseLike<VerifiableCredential>> {
+  private isValidDomain(domain: string) {
+    return domain.match("^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$");
+  }
+
+  private async verifyLdVc(vc: VerifiableCredential, context: IContext): Promise<VerifiableCredential | PromiseLike<VerifiableCredential>> {
     const vcjs = require('vc-js'); // TODO Replace by Veramo non-JWT verification when available
     const documentLoader = async (url: string) => {
       try {
@@ -165,7 +172,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       return verified;
     } catch (e) {
       // Some of the VCs couldn't be verified! We should remove it from the list later.
-      throw { message: ERROR_INVALID_LINKED_DID_CREDENTIAL, errors: [e] };
+      throw { message: ERROR_INVALID_LINKED_DID_CREDENTIAL, errors: [{ message: e.message }] };
     }
   }
 }
