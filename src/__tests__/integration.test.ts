@@ -20,6 +20,7 @@ import {
   IWKDidConfigVerification
 } from "../index";
 import { getResolver as webDidResolver } from 'web-did-resolver';
+import { getResolver as getEthrResolver } from 'ethr-did-resolver'
 
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c';
 
@@ -34,6 +35,12 @@ const dbConnection = createConnection({
   logging: false,
   entities: Entities,
 });
+
+const providerConfig = {
+  networks: [
+    { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/6b734e0b04454df8a6ce234023c04f26' },
+  ],
+}
 
 export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICredentialIssuer & IWellKnownDidConfigurationPlugin>({
   plugins: [
@@ -65,8 +72,8 @@ export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICr
     new DIDResolverPlugin({
       resolver: new Resolver({
         ...webDidResolver(),
+        ...getEthrResolver(providerConfig),
         key: uniresolver,
-        ethr: uniresolver,
         elem: uniresolver,
         io: uniresolver,
         ion: uniresolver,
