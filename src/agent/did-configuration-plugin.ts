@@ -77,11 +77,12 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
     if (!this.isValidDomain(domain)) throw { message: "Invalid web domain" };
 
     const didConfigUrl = "https://" + domain + WELL_KNOWN_DID_CONFIGURATION_PATH;
+    let rawDidConfiguration: string;
     let didConfiguration: IDidConfigurationSchema;
     try {
       let content: Response = await fetch(didConfigUrl);
-      const rawDidConfig: string = await content.text();
-      didConfiguration = <any>JSON.parse(rawDidConfig); // await content.json();
+      rawDidConfiguration = await content.text();
+      didConfiguration = <any>JSON.parse(rawDidConfiguration); // await content.json();
     } catch (error) {
       throw { message: "Failed to download the .well-known DID configuration at '" + didConfigUrl + "'. Error: " + error + "" };
     }
@@ -120,7 +121,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       catch (error) {
         const nestedErrors = [error.message];
         if (error.errors) nestedErrors.push(error.errors);
-        errors.push({ vc: JSON.stringify(vc), errors: nestedErrors });
+        errors.push({ vc: (typeof vc === 'string' ? vc : JSON.stringify(vc)), errors: nestedErrors });
       }
     }
 
@@ -130,6 +131,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       errors: errors,
       didConfiguration,
       valid: valid && dids.size > 0,
+      rawDidConfiguration
     };
   }
 
@@ -170,7 +172,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       return verified;
     } catch (e) {
       // Some of the VCs couldn't be verified! We should remove it from the list later.
-      throw { message: ERROR_INVALID_LINKED_DID_CREDENTIAL, errors: [e] };
+      throw { message: ERROR_INVALID_LINKED_DID_CREDENTIAL, errors: [{ message: e.message }] };
     }
   }
 }

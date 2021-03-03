@@ -12,12 +12,15 @@ import { KeyManager } from "@veramo/key-manager";
 import { KeyManagementSystem, SecretBox } from "@veramo/kms-local";
 import { MessageHandler } from "@veramo/message-handler";
 import { DIDResolver, Resolver } from "did-resolver";
+import fetch, { Response } from "node-fetch";
 import { createConnection } from 'typeorm';
 import {
   DIDConfigurationPlugin,
   IWellKnownDidConfigurationPlugin,
   IWKDidConfigVerification
 } from "../index";
+import { getResolver as webDidResolver } from 'web-did-resolver';
+import { getResolver as getEthrResolver } from 'ethr-did-resolver'
 
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c';
 
@@ -32,6 +35,12 @@ const dbConnection = createConnection({
   logging: false,
   entities: Entities,
 });
+
+const providerConfig = {
+  networks: [
+    { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/6b734e0b04454df8a6ce234023c04f26' },
+  ],
+}
 
 export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICredentialIssuer & IWellKnownDidConfigurationPlugin>({
   plugins: [
@@ -62,9 +71,9 @@ export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICr
     }),
     new DIDResolverPlugin({
       resolver: new Resolver({
+        ...webDidResolver(),
+        ...getEthrResolver(providerConfig),
         key: uniresolver,
-        ethr: uniresolver,
-        web: uniresolver,
         elem: uniresolver,
         io: uniresolver,
         ion: uniresolver,
@@ -77,6 +86,12 @@ export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICr
 
 
 describe(".well-known DID configuration VERIFICATION", () => {
+  it("Verify DID configuration from 'test.agent.serto.xyz'", async () => {
+    const prepare: Response = await fetch("https://test.agent.serto.xyz/.well-known/did-configuration.json?hasVeramo=false");
+    const result = await checkDidConfigForDomain("test.agent.serto.xyz", 1);
+    expect(result.valid).toBe(true);
+  });
+
   it("Verify DID configuration from 'identity.foundation'", async () => {
     const result = await checkDidConfigForDomain("identity.foundation", 1);
     expect(result.valid).toBe(true);
@@ -156,7 +171,8 @@ async function checkDidConfigForDomain(testDomain: string, numberOfExpectedDids:
       domain: testDomain,
     }
   );
-  const { domain, dids, didConfiguration, errors, valid } = result;
+  const { domain, dids, didConfiguration, errors, valid, rawDidConfiguration } = result;
+  // if (!valid) console.log(domain + " " + valid + " Errors: " + JSON.stringify(errors, null, 2));
   expect(domain).toBe(testDomain);
   expect(dids).toHaveLength(numberOfExpectedDids);
   return result;
