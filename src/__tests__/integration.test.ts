@@ -39,6 +39,7 @@ const dbConnection = createConnection({
 const providerConfig = {
   networks: [
     { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/6b734e0b04454df8a6ce234023c04f26' },
+    { name: 'mainnet', rpcUrl: 'https://mainnet.infura.io/v3/6b734e0b04454df8a6ce234023c04f26' },
   ],
 }
 
@@ -53,6 +54,16 @@ const ethrProvider = new EthrDIDProvider({
   gas: 1000001,
   ttl: 60 * 60 * 24 * 30 * 12 + 1,
 });
+
+const ethrProviderMainnet = new EthrDIDProvider({
+  defaultKms: 'local',
+  network: 'mainnet',
+  rpcUrl: 'https://mainnet.infura.io/v3/',
+  gas: 1000001,
+  ttl: 60 * 60 * 24 * 30 * 12 + 1,
+});
+
+
 export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICredentialIssuer & IWellKnownDidConfigurationPlugin>({
   plugins: [
     new DIDConfigurationPlugin(),
@@ -69,7 +80,7 @@ export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICr
       providers: {
         'did:web': new WebDIDProvider({ defaultKms: 'local' }),
         'did:key': new KeyDIDProvider({ defaultKms: 'local' }),
-        'did:ethr': ethrProvider,
+        'did:ethr': ethrProviderMainnet,
         'did:ethr:rinkeby': ethrProvider,
       },
     }),
@@ -129,33 +140,11 @@ describe(".well-known DID configuration VERIFICATION", () => {
   });
 });
 
-describe(".well-known DID configuration from MetaMask", () => {
-  it("Generate a DID configuration from MetaMask private key", async () => {
-    const did = await agent.didManagerImport({
-      did: "did:ethr:0xf1c088Ff19301e660CE8B63F79675337e28963a4",
-      keys: [{ 
-        kid: 'secret',
-        kms: 'local',
-        publicKeyHex: 'f1c088Ff19301e660CE8B63F79675337e28963a4',
-        privateKeyHex: 'secret',
-        type: "Secp256k1"
-      }],
-      provider: "did:ethr",
-      services: []
-    });
-    const result = await agent.generateDidConfiguration({
-      dids: [did.did],
-      domain: "verify.serto.id"
-    });
-    console.log("DID configuration: " + JSON.stringify(result));
-    expect(result.linked_dids.length).toEqual(1);
-  });
-
+describe(".well-known DID configuration creation", () => {
   it("Generate a DID configuration", async () => {
     const did = await agent.didManagerCreate({ alias: "mesh.xyz", provider: "did:ethr" });
     const exported = await agent.didManagerGet({ did: did.did });
     console.log("EXPORTED: " + JSON.stringify(exported));
-
     const result = await agent.generateDidConfiguration({
       dids: [did.did],
       domain: "mesh.xyz"
