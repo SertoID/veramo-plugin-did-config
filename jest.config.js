@@ -11,6 +11,7 @@ module.exports = {
     "!src/**/*.d.ts",
     "!**/node_modules/**"
   ],
+  "coverageReporters": ["text", "lcov", "json"],
   testEnvironment: "node",
   setupFilesAfterEnv: ["jest-extended"]
 }
