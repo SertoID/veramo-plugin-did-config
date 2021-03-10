@@ -55,6 +55,11 @@ jobs:
           command: yarn test-ci
       - store_artifacts:
           path: coverage
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - coverage
+            
   codecov:
     <<: *defaults
     steps:
