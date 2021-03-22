@@ -84,6 +84,7 @@ export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICr
   ],
 });
 
+jest.setTimeout(30000);
 
 describe(".well-known DID configuration VERIFICATION", () => {
   it("Verify DID configuration from 'test.agent.serto.xyz'", async () => {
