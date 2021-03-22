@@ -17,7 +17,7 @@
     "verify": "veramo execute -m verifyWellKnownDidConfiguration -a \"{\\\"domain\\\": \\\"identity.foundation\\\"}\"",
     "watch": "tsc -b --watch",
     "test": "jest",
-    "test-ci": "jest --coverage=true",
+    "test-ci": "jest --coverage=true --maxWorkers 2",
     "clean": "rm -rf tmp && rm database.sqlite && rm -rf build && rm tsconfig.tsbuildinfo",
     "upgrade-veramo": "yarn add -D @veramo/cli && yarn add @veramo/core @veramo/message-handler @veramo/did-resolver @veramo/credential-w3c @veramo/did-jwt @veramo/data-store did-resolver @veramo/key-manager @veramo/kms-local"
   },
