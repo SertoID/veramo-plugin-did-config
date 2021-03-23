@@ -45,8 +45,7 @@ export interface IDidConfigurationSchema {
 
   /**
    * Legacy support. 
-   * @see linked_dids
-   * @deprecated 
+   * @deprecated Use the `linked_dids` property instead
    */
   entries?: VerifiableCredentialOrJwt[]; // Legacy support
 }
