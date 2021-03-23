@@ -54,6 +54,7 @@ export interface IDidConfigurationSchema {
  * The DID configuration can contain DIDs which methods are not resolved yet or VCs 
  * not following the well-known DID configuration specification. In those cases this
  * object is returned with details about the verification process.
+ * @beta
  */
 export interface IWKDidConfigVerificationError {
   /**
