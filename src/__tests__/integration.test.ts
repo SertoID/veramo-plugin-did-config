@@ -39,8 +39,30 @@ const dbConnection = createConnection({
 const providerConfig = {
   networks: [
     { name: 'rinkeby', rpcUrl: 'https://rinkeby.infura.io/v3/6b734e0b04454df8a6ce234023c04f26' },
+    { name: 'mainnet', rpcUrl: 'https://mainnet.infura.io/v3/6b734e0b04454df8a6ce234023c04f26' },
   ],
 }
+
+const kms = {
+  local: new KeyManagementSystem(),
+};
+
+const ethrProvider = new EthrDIDProvider({
+  defaultKms: 'local',
+  network: 'rinkeby',
+  rpcUrl: 'https://rinkeby.infura.io/v3/',
+  gas: 1000001,
+  ttl: 60 * 60 * 24 * 30 * 12 + 1,
+});
+
+const ethrProviderMainnet = new EthrDIDProvider({
+  defaultKms: 'local',
+  network: 'mainnet',
+  rpcUrl: 'https://mainnet.infura.io/v3/',
+  gas: 1000001,
+  ttl: 60 * 60 * 24 * 30 * 12 + 1,
+});
+
 
 export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICredentialIssuer & IWellKnownDidConfigurationPlugin>({
   plugins: [
@@ -50,9 +72,7 @@ export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICr
     }),
     new KeyManager({
       store: new KeyStore(dbConnection, new SecretBox(secretKey)),
-      kms: {
-        local: new KeyManagementSystem(),
-      },
+      kms: kms,
     }),
     new DIDManager({
       store: new DIDStore(dbConnection),
@@ -60,13 +80,8 @@ export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICr
       providers: {
         'did:web': new WebDIDProvider({ defaultKms: 'local' }),
         'did:key': new KeyDIDProvider({ defaultKms: 'local' }),
-        'did:ethr:rinkeby': new EthrDIDProvider({
-          defaultKms: 'local',
-          network: 'rinkeby',
-          rpcUrl: 'https://rinkeby.infura.io/v3/',
-          gas: 1000001,
-          ttl: 60 * 60 * 24 * 30 * 12 + 1,
-        }),
+        'did:ethr': ethrProviderMainnet,
+        'did:ethr:rinkeby': ethrProvider,
       },
     }),
     new DIDResolverPlugin({
@@ -90,6 +105,11 @@ describe(".well-known DID configuration VERIFICATION", () => {
   it("Verify DID configuration from 'test.agent.serto.xyz'", async () => {
     const prepare: Response = await fetch("https://test.agent.serto.xyz/.well-known/did-configuration.json?hasVeramo=false");
     const result = await checkDidConfigForDomain("test.agent.serto.xyz", 1);
+    expect(result.valid).toBe(true);
+  });
+
+  it("Verify DID configuration from 'verify.serto.id'", async () => {
+    const result = await checkDidConfigForDomain("verify.serto.id", 1);
     expect(result.valid).toBe(true);
   });
 
@@ -121,9 +141,11 @@ describe(".well-known DID configuration VERIFICATION", () => {
   });
 });
 
-describe(".well-known DID configuration GENERATOR", () => {
+describe(".well-known DID configuration creation", () => {
   it("Generate a DID configuration", async () => {
-    const did = await agent.didManagerCreate({ alias: "mesh.xyz" });
+    const did = await agent.didManagerCreate({ alias: "mesh.xyz", provider: "did:ethr" });
+    const exported = await agent.didManagerGet({ did: did.did });
+    console.log("EXPORTED: " + JSON.stringify(exported));
     const result = await agent.generateDidConfiguration({
       dids: [did.did],
       domain: "mesh.xyz"
@@ -173,7 +195,7 @@ async function checkDidConfigForDomain(testDomain: string, numberOfExpectedDids:
     }
   );
   const { domain, dids, didConfiguration, errors, valid, rawDidConfiguration } = result;
-  // if (!valid) console.log(domain + " " + valid + " Errors: " + JSON.stringify(errors, null, 2));
+  if (numberOfExpectedDids != dids.length) console.log(domain + " " + valid + " Errors: " + JSON.stringify(errors, null, 2));
   expect(domain).toBe(testDomain);
   expect(dids).toHaveLength(numberOfExpectedDids);
   return result;
