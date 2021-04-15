@@ -52,7 +52,7 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@types/node-fetch": "^2.5.8",
+    "@types/node-fetch": "^2.5.10",
     "@veramo/core": "^1.1.0",
     "@veramo/credential-w3c": "^1.1.0",
     "@veramo/data-store": "^1.1.0",
@@ -64,8 +64,7 @@
     "@veramo/key-manager": "^1.1.0",
     "@veramo/kms-local": "^1.1.0",
     "@veramo/message-handler": "^1.1.0",
-    "did-resolver": "^2.2.0",
-    "node-fetch": "^2.6.1",
-    "vc-js": "https://github.com/digitalbazaar/vc-js"
+    "did-resolver": "^3.1.0",
+    "node-fetch": "^2.6.1"
   }
 }
