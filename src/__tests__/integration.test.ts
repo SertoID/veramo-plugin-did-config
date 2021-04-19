@@ -64,7 +64,7 @@ const ethrProviderMainnet = new EthrDIDProvider({
 });
 
 
-export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICredentialIssuer & IWellKnownDidConfigurationPlugin>({
+const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICredentialIssuer & IWellKnownDidConfigurationPlugin>({
   plugins: [
     new DIDConfigurationPlugin(),
     new MessageHandler({
