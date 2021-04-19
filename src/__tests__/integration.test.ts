@@ -108,6 +108,11 @@ describe(".well-known DID configuration VERIFICATION", () => {
     expect(result.valid).toBe(true);
   });
 
+  it("Verify DID configuration from 'nft.citizencope.com'", async () => {
+    const result = await checkDidConfigForDomain("nft.citizencope.com", 1);
+    expect(result.valid).toBe(true);
+  });
+
   it("Verify DID configuration from 'verify.serto.id'", async () => {
     const result = await checkDidConfigForDomain("verify.serto.id", 1);
     expect(result.valid).toBe(true);
