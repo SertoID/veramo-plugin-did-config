@@ -1,32 +1,29 @@
-import { createAgent, IDIDManager, IMessageHandler, IResolver } from "@veramo/core";
+import { createAgent, IDataStore, IDIDManager, IMessageHandler, IResolver } from "@veramo/core";
 import { CredentialIssuer, W3cMessageHandler } from "@veramo/credential-w3c";
 import { ICredentialIssuer } from "@veramo/credential-w3c/src";
-import { DIDStore, Entities, KeyStore } from "@veramo/data-store";
+import { DataStore, DIDStore, Entities, KeyStore } from "@veramo/data-store";
 import { JwtMessageHandler } from "@veramo/did-jwt";
 import { DIDManager } from "@veramo/did-manager";
 import { EthrDIDProvider } from "@veramo/did-provider-ethr";
 import { KeyDIDProvider } from "@veramo/did-provider-key";
 import { WebDIDProvider } from "@veramo/did-provider-web";
-import { DIDResolverPlugin, UniversalResolver } from "@veramo/did-resolver";
+import { DIDResolverPlugin } from "@veramo/did-resolver";
+import { getUniversalResolverFor } from "@veramo/did-resolver/build/universal-resolver";
 import { KeyManager } from "@veramo/key-manager";
 import { KeyManagementSystem, SecretBox } from "@veramo/kms-local";
 import { MessageHandler } from "@veramo/message-handler";
-import { DIDResolver, Resolver } from "did-resolver";
+import { Resolver } from "did-resolver";
+import { getResolver as getEthrResolver } from 'ethr-did-resolver';
 import fetch, { Response } from "node-fetch";
 import { createConnection } from 'typeorm';
+import { getResolver as webDidResolver } from 'web-did-resolver';
 import {
   DIDConfigurationPlugin,
   IWellKnownDidConfigurationPlugin,
   IWKDidConfigVerification
 } from "../index";
-import { getResolver as webDidResolver } from 'web-did-resolver';
-import { getResolver as getEthrResolver } from 'ethr-did-resolver'
 
 const secretKey = '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c';
-
-const uniresolver = new UniversalResolver({
-  url: "https://uniresolver.io/1.0/identifiers/",
-}) as DIDResolver;
 
 const dbConnection = createConnection({
   type: 'sqlite',
@@ -63,8 +60,7 @@ const ethrProviderMainnet = new EthrDIDProvider({
   ttl: 60 * 60 * 24 * 30 * 12 + 1,
 });
 
-
-export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICredentialIssuer & IWellKnownDidConfigurationPlugin>({
+const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICredentialIssuer & IWellKnownDidConfigurationPlugin & IDataStore>({
   plugins: [
     new DIDConfigurationPlugin(),
     new MessageHandler({
@@ -88,14 +84,11 @@ export const agent = createAgent<IResolver & IDIDManager & IMessageHandler & ICr
       resolver: new Resolver({
         ...webDidResolver(),
         ...getEthrResolver(providerConfig),
-        key: uniresolver,
-        elem: uniresolver,
-        io: uniresolver,
-        ion: uniresolver,
-        sov: uniresolver,
+        ...getUniversalResolverFor(["key", "elem", "io", "ion", "sov"])
       }),
     }),
     new CredentialIssuer(),
+    new DataStore(dbConnection)
   ],
 });
 
@@ -105,6 +98,11 @@ describe(".well-known DID configuration VERIFICATION", () => {
   it("Verify DID configuration from 'test.agent.serto.xyz'", async () => {
     const prepare: Response = await fetch("https://test.agent.serto.xyz/.well-known/did-configuration.json?hasVeramo=false");
     const result = await checkDidConfigForDomain("test.agent.serto.xyz", 1);
+    expect(result.valid).toBe(true);
+  });
+
+  it("Verify DID configuration from 'nft.citizencope.com'", async () => {
+    const result = await checkDidConfigForDomain("nft.citizencope.com", 1);
     expect(result.valid).toBe(true);
   });
 
@@ -144,11 +142,19 @@ describe(".well-known DID configuration VERIFICATION", () => {
 describe(".well-known DID configuration creation", () => {
   it("Generate a DID configuration", async () => {
     const did = await agent.didManagerCreate({ alias: "mesh.xyz", provider: "did:ethr" });
-    const exported = await agent.didManagerGet({ did: did.did });
-    console.log("EXPORTED: " + JSON.stringify(exported));
     const result = await agent.generateDidConfiguration({
       dids: [did.did],
       domain: "mesh.xyz"
+    });
+    expect(result.linked_dids.length).toEqual(1);
+  });
+
+  it("Generate a DID configuration and save it", async () => {
+    const did = await agent.didManagerCreate({ alias: "mesh.xyz 2", provider: "did:ethr" });
+    const result = await agent.generateDidConfiguration({
+      dids: [did.did],
+      domain: "mesh.xyz",
+      save: true
     });
     expect(result.linked_dids.length).toEqual(1);
   });

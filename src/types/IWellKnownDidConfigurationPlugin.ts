@@ -21,6 +21,11 @@ export interface IWellKnownDidConfigurationPluginArgs {
    * The domain name linked to the DIDs.
    */
   domain: string,
+
+  /**
+   * Store the VCs used in the DID configuration
+   */
+  save?: boolean
 }
 
 /**
