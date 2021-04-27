@@ -61,7 +61,8 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
 
       const vc: VerifiableCredential = await context.agent.createVerifiableCredential({
         credential: payload,
-        proofFormat: 'jwt'
+        proofFormat: 'jwt',
+        save: args.save
       });
 
       didConfiguration.linked_dids.push(vc.proof.jwt);

@@ -15,6 +15,10 @@
             "domain": {
               "type": "string",
               "description": "The domain name linked to the DIDs."
+            },
+            "save": {
+              "type": "boolean",
+              "description": "Store the VCs used in the DID configuration"
             }
           },
           "required": [
