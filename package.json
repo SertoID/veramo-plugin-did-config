@@ -66,6 +66,7 @@
     "@veramo/did-provider-web": "^1.2.0",
     "@veramo/did-resolver": "^1.2.0",
     "@veramo/credential-w3c": "^1.2.0",
+    "vc-js": "^0.6.4",
     "node-fetch": "^2.6.1"
   }
 }

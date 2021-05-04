@@ -11,7 +11,7 @@ import {
   IWKDidConfigVerificationError
 } from '../types/IWellKnownDidConfigurationPlugin';
 
-const WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI = "https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld";
+const WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI = "https://identity.foundation/.well-known/contexts/did-configuration-v0.2.jsonld";
 const WELL_KNOWN_DID_CONFIGURATION_PATH = "/.well-known/did-configuration.json";
 
 const ERROR_INVALID_LINKED_DID_CREDENTIAL = "Invalid linked DID credential.";
