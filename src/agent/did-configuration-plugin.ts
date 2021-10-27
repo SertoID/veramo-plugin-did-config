@@ -85,7 +85,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
       rawDidConfiguration = await content.text();
       didConfiguration = <any>JSON.parse(rawDidConfiguration); // await content.json();
     } catch (error) {
-      throw { message: "Failed to download the .well-known DID configuration at '" + didConfigUrl + "'. Error: " + error + "" };
+      throw { message: `Failed to download '${didConfigUrl}'.`, error };
     }
 
     if (!didConfiguration.linked_dids && !didConfiguration.entries) throw { message: "The DID configuration must contain a `linked_dids` property." };
@@ -119,7 +119,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
         const did = verified.issuer.id || verified.credentialSubject.id;
         dids.add(<string>did);
       }
-      catch (error) {
+      catch (error: any) {
         const nestedErrors = [error.message];
         if (error.errors) nestedErrors.push(error.errors);
         errors.push({ vc: (typeof vc === 'string' ? vc : JSON.stringify(vc)), errors: nestedErrors });
@@ -171,7 +171,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
 
       const verified: VerifiableCredential = msg.credentials[0];
       return verified;
-    } catch (e) {
+    } catch (e: any) {
       // Some of the VCs couldn't be verified! We should remove it from the list later.
       throw { message: ERROR_INVALID_LINKED_DID_CREDENTIAL, errors: [{ message: e.message }] };
     }
