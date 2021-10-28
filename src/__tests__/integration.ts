@@ -55,7 +55,7 @@ export default (testContext: {
         const result = await agent.verifyWellKnownDidConfiguration({ domain });
         fail("Not suposed to find a DID configuration in domain: " + domain);
       }
-      catch (err) {
+      catch (err: any) {
         expect(err.message).toEqual(expect.stringMatching("Failed to download.*"));
       }
     });
@@ -108,7 +108,7 @@ export default (testContext: {
           domain: "mesh~.xyz"
         });
         throw "An invalid domain was accepted";
-      } catch (err) {
+      } catch (err: any) {
         expect(err.message).toEqual("Invalid web domain");
       }
     });
@@ -120,7 +120,7 @@ export default (testContext: {
           domain: "mesh.xyz"
         });
         throw "An invalid DID was accepted";
-      } catch (err) {
+      } catch (err: any) {
         expect(err.message).toEqual("Identifier not found");
       }
     });
