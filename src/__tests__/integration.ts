@@ -27,13 +27,8 @@ export default (testContext: {
       expect(result.valid).toBe(true);
     });
 
-    it("Verify DID configuration from 'nft.citizencope.com'", async () => {
-      const result = await checkDidConfigForDomain(agent, "nft.citizencope.com", 1);
-      expect(result.valid).toBe(true);
-    });
-
     it("Verify DID configuration from 'verify.serto.id'", async () => {
-      const result = await checkDidConfigForDomain(agent, "verify.serto.id", 1);
+      const result = await checkDidConfigForDomain(agent, "verify.serto.id", 3);
       expect(result.valid).toBe(true);
     });
 
@@ -61,7 +56,7 @@ export default (testContext: {
         fail("Not suposed to find a DID configuration in domain: " + domain);
       }
       catch (err) {
-        expect(err.message).toEqual(expect.stringMatching("Failed to download the .well-known DID configuration .*"));
+        expect(err.message).toEqual(expect.stringMatching("Failed to download.*"));
       }
     });
   });

@@ -270,5 +270,4 @@ agent:
         - $require: '@veramo/data-store#DataStoreORM'
           $args:
             - $ref: /dbConnection
-          # template: install your plugin on the `@veramo/cli` agent
         - $require: ./build#DIDConfigurationPlugin
