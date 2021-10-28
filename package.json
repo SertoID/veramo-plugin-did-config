@@ -12,14 +12,13 @@
   },
   "scripts": {
     "build": "tsc",
-    "schema": "yarn veramo dev generate-plugin-schema",
+    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema",
     "start": "veramo server",
-    "verify": "veramo execute -m verifyWellKnownDidConfiguration -a \"{\\\"domain\\\": \\\"identity.foundation\\\"}\"",
-    "watch": "tsc -b --watch",
-    "test": "jest",
-    "test-ci": "jest --coverage=true --maxWorkers 2",
-    "clean": "rm -rf tmp && rm database.sqlite && rm -rf build && rm tsconfig.tsbuildinfo",
-    "upgrade-veramo": "yarn add -D @veramo/cli && yarn add @veramo/core @veramo/message-handler @veramo/did-resolver @veramo/credential-w3c @veramo/did-jwt @veramo/data-store did-resolver @veramo/key-manager @veramo/kms-local"
+    "build:watch": "tsc -b --watch",
+    "test:ci": "jest --config=jest.json",
+    "test": "jest --config=jest.json --coverage=false",
+    "test:watch": "yarn test --watch --verbose",
+    "clean": "rm -rf tmp && rm database.sqlite && rm -rf build && rm tsconfig.tsbuildinfo"
   },
   "license": "MIT",
   "husky": {
@@ -29,24 +28,23 @@
     }
   },
   "devDependencies": {
+    "typescript": "4.4.3",
+    "@types/jest": "27.0.2",
+    "jest": "27.2.5",
+    "ts-jest": "27.0.5",
+    "jest-extended": "^0.11.5",
+    "jest-fetch-mock": "^3.0.3",
+    "@veramo/cli": "3.0.0",
+    "@veramo/data-store": "3.0.0",
+    "@veramo/kms-local": "3.0.0",
+    "commitlint": "^11.0.0",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@types/node-fetch": "^2.5.10",
-    "@types/jest": "^26.0.23",
-    "@veramo/cli": "^1.2.0",
-    "@veramo/data-store": "^1.2.0",
-    "@veramo/kms-local": "^1.2.0",
     "codecov": "^3.8.1",
-    "commitlint": "^11.0.0",
     "husky": "^5.0.9",
-    "jest": "^26.6.3",
-    "jest-extended": "^0.11.5",
-    "jest-fetch-mock": "^3.0.3",
     "prettier": "^2.2.1",
-    "pretty-quick": "^3.1.0",
-    "ts-jest": "^26.5.0",
-    "typeorm": "^0.2.32",
-    "typescript": "4.2.4"
+    "pretty-quick": "^3.1.0"
   },
   "files": [
     "build/**/*",
@@ -56,17 +54,8 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@veramo/core": "^1.2.0",
-    "@veramo/message-handler": "^1.2.0",
-    "@veramo/key-manager": "^1.2.0",
-    "@veramo/did-manager": "^1.2.0",
-    "@veramo/did-jwt": "^1.2.0",
-    "@veramo/did-provider-ethr": "^1.2.0",
-    "@veramo/did-provider-key": "^1.2.0",
-    "@veramo/did-provider-web": "^1.2.0",
-    "@veramo/did-resolver": "^1.2.0",
-    "@veramo/credential-w3c": "^1.2.0",
-    "vc-js": "^0.6.4",
+    "@veramo/core": "3.0.0",
+    "@veramo/message-handler": "3.0.0",
     "node-fetch": "^2.6.1"
   }
 }
