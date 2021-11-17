@@ -1,6 +1,7 @@
 import { IDataStore, IDIDManager, IMessageHandler, IResolver, TAgent } from '@veramo/core';
 import { ICredentialIssuer } from '@veramo/credential-w3c';
-import fetch, { Request, Response } from "node-fetch";
+import "cross-fetch/polyfill";
+import { Request, Response } from "cross-fetch";
 import {
   IWellKnownDidConfigurationPlugin,
   IWKDidConfigVerification
@@ -15,6 +16,18 @@ export default (testContext: {
   setup: () => Promise<boolean>
   tearDown: () => Promise<boolean>
 }) => {
+  describe("test fetch mock", () => {
+    beforeEach(() => {
+      fetchMock.enableMocks();
+      fetchMock.mockResponse('{"foo": 2}');
+    });
+    it("should work", async () => {
+      const res = await fetch("https://example.com");
+      const json = await res.json();
+      expect(json.foo).toBe(2);
+    });
+  });
+
   describe(".well-known DID configuration VERIFICATION", () => {
     let agent: ConfiguredAgent
     beforeAll(() => {
