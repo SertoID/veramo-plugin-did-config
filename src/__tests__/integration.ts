@@ -1,10 +1,12 @@
 import { IDataStore, IDIDManager, IMessageHandler, IResolver, TAgent } from '@veramo/core';
 import { ICredentialIssuer } from '@veramo/credential-w3c';
-import fetch, { Response } from "node-fetch";
+import fetch, { Request, Response } from "node-fetch";
 import {
   IWellKnownDidConfigurationPlugin,
   IWKDidConfigVerification
 } from "../index";
+import fetchMock, { enableFetchMocks } from 'jest-fetch-mock'
+
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager & IMessageHandler & ICredentialIssuer & IWellKnownDidConfigurationPlugin & IDataStore>
 
@@ -19,7 +21,7 @@ export default (testContext: {
       testContext.setup()
       agent = testContext.getAgent()
     })
-    afterAll(testContext.tearDown)
+    afterAll(testContext.tearDown);
 
     it("Verify DID configuration from 'test.agent.serto.xyz'", async () => {
       const prepare: Response = await fetch("https://test.agent.serto.xyz/.well-known/did-configuration.json?hasVeramo=false");
@@ -133,6 +135,59 @@ export default (testContext: {
         domain: "mesh.xyz"
       });
       expect(result.linked_dids.length).toEqual(2);
+    });
+
+    it("Test a DID configuration with a linkage using EIP712", async () => {
+      const origin = `test.com`;
+      const did = `did:ethr:0xcEC56F1D4Dc439E298D5f8B6ff3Aa6be58Cd6Fdf`;
+      const didConfig = `{
+        "@context":"https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld",
+        "linked_dids": [
+          {
+            "@context":["https://www.w3.org/2018/credentials/v1","https://identity.foundation/.well-known/contexts/did-configuration-v0.2.jsonld"],
+            "type":["VerifiableCredential","DomainLinkageCredential"],
+            "issuer":"did:ethr:0xcEC56F1D4Dc439E298D5f8B6ff3Aa6be58Cd6Fdf",
+            "issuanceDate":"2021-11-15T16:52:52.270Z",
+            "credentialSubject":{
+              "origin":"test.com",
+              "id":"did:ethr:0xcEC56F1D4Dc439E298D5f8B6ff3Aa6be58Cd6Fdf"
+            },
+            "proof": {
+              "verificationMethod":"did:ethr:0xcEC56F1D4Dc439E298D5f8B6ff3Aa6be58Cd6Fdf#controller",
+              "created":"2021-11-15T16:52:52.270Z",
+              "proofPurpose":"assertionMethod",
+              "type":"EthereumEip712Signature2021",
+              "proofValue":"0xfc58e86fc0a42abd657fa8868f3dfe5d801baf7b5b8030ed4082052fe8293abf60d9780f15fa9e96dd9394adc9c8d3fe6512b8a6c9950a392e5969f810d8e1801c",
+              "eip712Domain":{
+                "domain":{"chainId":1,"name":"DomainLinkage","version":"1"},
+                "messageSchema":{
+                  "EIP712Domain":[{"name":"name","type":"string"},{"name":"version","type":"string"},{"name":"chainId","type":"uint256"}],
+                  "VerifiableCredential":[{"name":"@context","type":"string[]"},{"name":"type","type":"string[]"},{"name":"issuer","type":"string"},{"name":"issuanceDate","type":"string"},{"name":"credentialSubject","type":"CredentialSubject"},{"name":"proof","type":"Proof"}],
+                  "CredentialSubject":[{"name":"origin","type":"string"},{"name":"id","type":"string"}],
+                  "Proof":[{"name":"verificationMethod","type":"string"},{"name":"created","type":"string"},{"name":"proofPurpose","type":"string"},{"name":"type","type":"string"}]
+                },
+                "primaryType":"VerifiableCredential"
+              }
+            }
+          }
+        ]}`;
+
+      // if you have an existing `beforeEach` just add the following lines to it
+      enableFetchMocks();
+      // fetchMock.mockIf(/^https?:\/\/test.com\/\.well-known\/did-configuration.json$/,
+      fetchMock.mockIf(/did-configuration.json$/,
+        async () => {
+          console.log("Test!");
+          return Promise.resolve(didConfig);
+        });
+
+      const result = await agent.verifyWellKnownDidConfiguration({ domain: origin });
+      fetchMock.resetMocks();
+      const { domain, dids, didConfiguration, errors, valid, rawDidConfiguration } = result;
+      expect(domain).toBe(origin);
+      expect(dids).toHaveLength(1);
+      expect(dids).toContain(did);
+      return result;
     });
   });
 }
