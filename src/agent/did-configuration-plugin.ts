@@ -14,7 +14,7 @@ import {
 const WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI = "https://identity.foundation/.well-known/contexts/did-configuration-v0.2.jsonld";
 const WELL_KNOWN_DID_CONFIGURATION_PATH = "/.well-known/did-configuration.json";
 
-const ERROR_INVALID_LINKED_DID_CREDENTIAL = "Invalid linked DID credential.";
+const ERROR_INVALID_LINKED_DID_CREDENTIAL = "Invalid linkage credential.";
 const ERROR_NO_LINKED_DID_CREDENTIAL = "No linked DID credential."
 
 /** 
@@ -81,6 +81,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
     let rawDidConfiguration: string;
     let didConfiguration: IDidConfigurationSchema;
     try {
+      console.log(didConfigUrl);
       let content: Response = await fetch(didConfigUrl);
       rawDidConfiguration = await content.text();
       didConfiguration = <any>JSON.parse(rawDidConfiguration); // await content.json();
@@ -104,7 +105,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
           verified = await this.verifyJwtVc(vc, context);
         } else {
           // non-JWT Credential
-          verified = await this.verifyLdVc(vc, context);
+          verified = await this.verifyJwtVc(JSON.stringify(vc), context);
         }
 
         // Check if the linked domain matches with the domain hosting the DID configuration

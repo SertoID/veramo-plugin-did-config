@@ -151,6 +151,10 @@ server:
           baseUrl:
             $ref: /constants/baseUrl
           messagingServiceEndpoint: /messaging
+          
+# DID Eth Typed Data
+did-eth-typed-data-handler:
+  $require: did-eth-typed-data#DidEthTypedData
 
 # Message handler plugin
 messageHandler:
@@ -158,6 +162,7 @@ messageHandler:
   $args:
     - messageHandlers:
         # order matters
+        - $require: 'did-eth-typed-data#EthTypedDataHandler'
         - $require: '@veramo/did-comm#DIDCommMessageHandler'
         - $require: '@veramo/did-jwt#JwtMessageHandler'
         - $require: '@veramo/credential-w3c#W3cMessageHandler'

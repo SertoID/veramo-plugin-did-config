@@ -1,11 +1,11 @@
 import { IDataStore, IDIDManager, IMessageHandler, IResolver, TAgent } from '@veramo/core';
 import { ICredentialIssuer } from '@veramo/credential-w3c';
-import fetch, { Request, Response } from "node-fetch";
+import fetchMock from 'jest-fetch-mock';
+import fetch, { Response } from "node-fetch";
 import {
   IWellKnownDidConfigurationPlugin,
   IWKDidConfigVerification
 } from "../index";
-import fetchMock, { enableFetchMocks } from 'jest-fetch-mock'
 
 
 type ConfiguredAgent = TAgent<IResolver & IDIDManager & IMessageHandler & ICredentialIssuer & IWellKnownDidConfigurationPlugin & IDataStore>
@@ -172,18 +172,16 @@ export default (testContext: {
           }
         ]}`;
 
-      // if you have an existing `beforeEach` just add the following lines to it
-      enableFetchMocks();
-      // fetchMock.mockIf(/^https?:\/\/test.com\/\.well-known\/did-configuration.json$/,
-      fetchMock.mockIf(/did-configuration.json$/,
-        async () => {
-          console.log("Test!");
+      fetchMock.mockIf(/^https?:\/\/test.com\/\.well-known\/did-configuration.json$/,
+        async (req) => {
+          console.log(req.url);
           return Promise.resolve(didConfig);
         });
 
       const result = await agent.verifyWellKnownDidConfiguration({ domain: origin });
       fetchMock.resetMocks();
       const { domain, dids, didConfiguration, errors, valid, rawDidConfiguration } = result;
+      console.log(errors[0].errors);
       expect(domain).toBe(origin);
       expect(dids).toHaveLength(1);
       expect(dids).toContain(did);
