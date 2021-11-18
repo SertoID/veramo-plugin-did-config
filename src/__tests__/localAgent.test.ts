@@ -13,9 +13,6 @@ jest.setTimeout(30000)
 let dbConnection: Promise<Connection>
 let agent: any
 
-
-fetchMock.enableMocks();
-
 const setup = async (): Promise<boolean> => {
 
   const config = getConfig('./agent.yml')

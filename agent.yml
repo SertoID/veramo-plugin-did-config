@@ -66,8 +66,9 @@ constants:
     - createSelectiveDisclosureRequest
     - getVerifiableCredentialsForSdr
     - validatePresentationAgainstSdr
-    # template: add your plugin methods here too. This assumes that your plugin is added to the agent. See below, toward the end of this config file.
-    - myPluginFoo
+    - generateDidConfiguration
+    - verifyWellKnownDidConfiguration
+    - verifyEthTypedDataVc
 
 # Database
 dbConnection:
@@ -162,9 +163,9 @@ messageHandler:
   $args:
     - messageHandlers:
         # order matters
-        - $require: 'did-eth-typed-data#EthTypedDataHandler'
         - $require: '@veramo/did-comm#DIDCommMessageHandler'
         - $require: '@veramo/did-jwt#JwtMessageHandler'
+        - $require: 'did-eth-typed-data#EthTypedDataHandler'
         - $require: '@veramo/credential-w3c#W3cMessageHandler'
         - $require: '@veramo/selective-disclosure#SdrMessageHandler'
 
@@ -275,4 +276,5 @@ agent:
         - $require: '@veramo/data-store#DataStoreORM'
           $args:
             - $ref: /dbConnection
+        - $require: did-eth-typed-data#DidEthTypedData
         - $require: ./build#DIDConfigurationPlugin

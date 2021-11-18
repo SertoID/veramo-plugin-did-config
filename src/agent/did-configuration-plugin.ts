@@ -81,7 +81,6 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
     let rawDidConfiguration: string;
     let didConfiguration: IDidConfigurationSchema;
     try {
-      console.log(didConfigUrl);
       let content: Response = await fetch(didConfigUrl);
       rawDidConfiguration = await content.text();
       didConfiguration = <any>JSON.parse(rawDidConfiguration); // await content.json();
@@ -139,28 +138,6 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
 
   private isValidDomain(domain: string) {
     return domain.match("^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$");
-  }
-
-  private async verifyLdVc(vc: VerifiableCredential, context: IContext): Promise<VerifiableCredential | PromiseLike<VerifiableCredential>> {
-    const vcjs = require('vc-js'); // TODO Replace by Veramo non-JWT verification when available
-    const documentLoader = async (url: string) => {
-      try {
-        const content: Response = await fetch(url);
-        const context: string = await content.text();
-        return {
-          contextUrl: null,
-          documentUrl: url,
-          document: context
-        };
-      } catch (error) {
-        throw new Error("Failed to download the VC context from '" + url + "': " + error);
-      }
-    };
-    const result = await vcjs.verifyCredential({ credential: vc, suite: {}, documentLoader });
-    if (!result.verified) {
-      throw { message: ERROR_INVALID_LINKED_DID_CREDENTIAL, ...result.error };
-    }
-    return vc;
   }
 
   private async verifyJwtVc(jwtVc: string, context: IContext): Promise<VerifiableCredential> {
