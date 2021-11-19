@@ -14,7 +14,7 @@ import {
 const WELL_KNOWN_DID_CONFIGURATION_SCHEMA_URI = "https://identity.foundation/.well-known/contexts/did-configuration-v0.2.jsonld";
 const WELL_KNOWN_DID_CONFIGURATION_PATH = "/.well-known/did-configuration.json";
 
-const ERROR_INVALID_LINKED_DID_CREDENTIAL = "Invalid linked DID credential.";
+const ERROR_INVALID_LINKED_DID_CREDENTIAL = "Invalid linkage credential.";
 const ERROR_NO_LINKED_DID_CREDENTIAL = "No linked DID credential."
 
 /** 
@@ -104,7 +104,7 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
           verified = await this.verifyJwtVc(vc, context);
         } else {
           // non-JWT Credential
-          verified = await this.verifyLdVc(vc, context);
+          verified = await this.verifyJwtVc(JSON.stringify(vc), context);
         }
 
         // Check if the linked domain matches with the domain hosting the DID configuration
@@ -138,28 +138,6 @@ export class DIDConfigurationPlugin implements IAgentPlugin {
 
   private isValidDomain(domain: string) {
     return domain.match("^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$");
-  }
-
-  private async verifyLdVc(vc: VerifiableCredential, context: IContext): Promise<VerifiableCredential | PromiseLike<VerifiableCredential>> {
-    const vcjs = require('vc-js'); // TODO Replace by Veramo non-JWT verification when available
-    const documentLoader = async (url: string) => {
-      try {
-        const content: Response = await fetch(url);
-        const context: string = await content.text();
-        return {
-          contextUrl: null,
-          documentUrl: url,
-          document: context
-        };
-      } catch (error) {
-        throw new Error("Failed to download the VC context from '" + url + "': " + error);
-      }
-    };
-    const result = await vcjs.verifyCredential({ credential: vc, suite: {}, documentLoader });
-    if (!result.verified) {
-      throw { message: ERROR_INVALID_LINKED_DID_CREDENTIAL, ...result.error };
-    }
-    return vc;
   }
 
   private async verifyJwtVc(jwtVc: string, context: IContext): Promise<VerifiableCredential> {

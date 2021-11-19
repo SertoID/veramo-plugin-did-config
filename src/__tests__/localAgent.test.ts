@@ -1,13 +1,14 @@
-import { getConfig } from '@veramo/cli/build/setup'
 import { createObjects } from '@veramo/cli/build/lib/objectCreator'
-import { Connection } from 'typeorm'
-
+import { getConfig } from '@veramo/cli/build/setup'
 import fs from 'fs'
+import fetchMock from 'jest-fetch-mock'
+import { Connection } from 'typeorm'
+// Shared tests
+import myPluginLogic from './integration'
+
 
 jest.setTimeout(30000)
 
-// Shared tests
-import myPluginLogic from './integration'
 
 let dbConnection: Promise<Connection>
 let agent: any
