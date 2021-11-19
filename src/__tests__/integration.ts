@@ -49,6 +49,25 @@ export default (testContext: {
       expect(result.valid).toBe(true);
     });
 
+    it("Verify DID configuration from 'verify.serto.id' but linked to another domain", async () => {
+      fetchMock.mockOnce(`{
+        "@context": "https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld",
+        "linked_dids": [
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NksifQ.eyJ2YyI6eyJjcmVkZW50aWFsU3ViamVjdCI6eyJvcmlnaW4iOiJ0ZXN0LmFnZW50LnNlcnRvLnh5eiJ9LCJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSIsImh0dHBzOi8vaWRlbnRpdHkuZm91bmRhdGlvbi8ud2VsbC1rbm93bi9jb250ZXh0cy9kaWQtY29uZmlndXJhdGlvbi12MC4wLmpzb25sZCJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiRG9tYWluTGlua2FnZUNyZWRlbnRpYWwiXX0sInN1YiI6ImRpZDp3ZWI6dGVzdC5hZ2VudC5zZXJ0by54eXoiLCJuYmYiOjE2MzcyNjY4MzEsImlzcyI6ImRpZDp3ZWI6dGVzdC5hZ2VudC5zZXJ0by54eXoifQ.6xyp1yXmnM8MSxXIvfaGzdj92we54DnAP5jzWDCLi4Iv_VFj7BhIOXlT567rmm7t-t4SN0qg-ll20iijyzc5cQ"
+        ]
+      }`);
+      const result = await checkDidConfigForDomain(agent, "verify.serto.id", 0);
+      console.log(JSON.stringify(result, null, 4));
+      expect(result.valid).toBe(false);
+      expect(result.errors[0].errors[0]).toBe("The DID did:web:test.agent.serto.xyz is linked to an unexpected domain test.agent.serto.xyz, instead of verify.serto.id");
+    });    
+
+    it("Verify empty DID configuration", async () => {
+      fetchMock.mockOnce(`{"@context":"https://identity.foundation/.well-known/contexts/did-configuration-v0.0.jsonld","linked_dids":[]}`);
+      const result = await checkDidConfigForDomain(agent, "mesh.xyz", 0);
+      expect(result.valid).toBe(false);
+    });
+
     it("Verify DID configuration from 'identity.foundation'", async () => {
       fetchMock.mockOnce(`{
         "@context": "https://identity.foundation/.well-known/did-configuration/v1",

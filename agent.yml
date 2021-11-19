@@ -277,4 +277,4 @@ agent:
           $args:
             - $ref: /dbConnection
         - $require: did-eth-typed-data#DidEthTypedData
-        - $require: ./build#DIDConfigurationPlugin
+        - $require: ./src#DIDConfigurationPlugin
