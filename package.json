@@ -57,6 +57,6 @@
     "@veramo/core": "3.1.0",
     "@veramo/message-handler": "3.1.0",
     "did-eth-typed-data": "^1.0.6",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^3.1.1"
   }
 }
